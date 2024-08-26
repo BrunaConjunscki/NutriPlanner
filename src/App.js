@@ -1,14 +1,14 @@
-import cheid from './cheid.jpeg';
-import './App.css';
+import React from "react";
+import RoutesApp from "./routes";
+import { AuthProvider } from "./contexts/auth";
+import "./styles/global.css"; 
 
-function App() {
-  return (
-    <div className="App-header">
-      <h1>Hello NutriPlanner!</h1>
-      <p>Primeiro esboço do querido</p>
-      <img src={cheid} className="App-logo" alt="dona do meu kokoro" />
-    </div>
-  );
+const App = () => {
+    return(
+        <AuthProvider>
+            <RoutesApp/>
+        </AuthProvider>
+    )
 }
 
 export default App;

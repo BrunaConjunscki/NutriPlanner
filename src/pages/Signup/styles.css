@@ -1,0 +1,130 @@
+.signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    height: 100vh;
+}
+
+.signup-content {
+    gap: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    box-shadow: 0 1px 2px #0003;
+    background-color: white;
+    max-width: 350px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.signup-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #676767;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-label {
+    font-size: 14px;
+    color: #676767;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.required {
+    color: red;
+    font-size: 16px;
+}
+
+.signup-label-error {
+    font-size: 14px;
+    color: red;
+}
+
+.signup-password-container {
+    position: relative;
+    width: 100%;
+}
+
+.signup-password-toggle {
+    position: absolute;
+    right: -130px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #676767;
+    z-index: 1;
+}
+
+.signup-button {
+    outline: none;
+    padding: 16px 20px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #046ee5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    max-width: 350px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-button:hover {
+    background-color: #0358d1;
+}
+
+.signup-button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+}
+
+.success-message {
+    font-size: 14px;
+    color: green;
+    background-color: #e0f2e9;
+    border: 1px solid #b2dfb0;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 350px;
+}
+
+.success-message-icon {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.signup-label-signup {
+    font-size: 16px;
+    color: #676767;
+}
+
+.signup-strong {
+    cursor: pointer;
+}
+
+.signup-strong a {
+    text-decoration: none;
+    color: #046ee5;
+}
+
+.signup-strong a:hover {
+    text-decoration: underline;
+}
