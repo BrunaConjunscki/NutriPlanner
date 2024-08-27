@@ -36,105 +36,128 @@ const SignUp = () => {
             return;
         }
 
-        const res = await signup(email, senha);
-        if (res) {
-            setError(res);
-            return;
-        }
+        await fetch('http://localhost:8000/api/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: nome,
+                email: email,
+                email_confirmation: emailConf,
+                password: senha,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setSuccess(data.success);
+                setTimeout(() => navigate("/"), 2000);
+            })
+            .catch((err) => {
+                setError(err.message);
+                console.log(err.message);
+            });
 
-        setSuccess("Cadastro finalizado com sucesso!");
-        setError("");
-        setTimeout(() => navigate("/"), 2000); // Redireciona após 2 segundos
+        //
+        // const res = await signup(email, senha);
+        // if (res) {
+        //     setError(res);
+        //     return;
+        // }
+        //
+        // setSuccess("Cadastro finalizado com sucesso!");
+        // setError("");
+        // setTimeout(() => navigate("/"), 2000); // Redireciona após 2 segundos
     };
 
     return (
-        <div className="signup-container">
-            <label className="signup-label">SISTEMA DE CADASTRO</label>
-            <div className="signup-content">
-                <div className="input-group">
-                    <label htmlFor="nome" className="input-label">Nome Completo <span className="required">*</span></label>
-                    <Input
-                        id="nome"
-                        type="text"
-                        placeholder="Digite seu Nome Completo"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
-                        ref={nomeRef} // Referência para o campo de nome
-                    />
-                </div>
-
-                <div className="input-group">
-                    <label htmlFor="email" className="input-label">E-mail <span className="required">*</span></label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="Digite seu E-mail"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-
-                <div className="input-group">
-                    <label htmlFor="emailConf" className="input-label">Confirme seu E-mail <span className="required">*</span></label>
-                    <Input
-                        id="emailConf"
-                        type="email"
-                        placeholder="Confirme seu E-mail"
-                        value={emailConf}
-                        onChange={(e) => setEmailConf(e.target.value)}
-                    />
-                </div>
-
-                <div className="input-group">
-                    <label htmlFor="senha" className="input-label">Senha <span className="required">*</span></label>
-                    <div className="signup-password-container">
+            <div className="signup-container">
+                <label className="signup-label">SISTEMA DE CADASTRO</label>
+                <div className="signup-content">
+                    <div className="input-group">
+                        <label htmlFor="nome" className="input-label">Nome Completo <span className="required">*</span></label>
                         <Input
-                            id="senha"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Digite sua Senha"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
+                            id="nome"
+                            type="text"
+                            placeholder="Digite seu Nome Completo"
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
+                            ref={nomeRef} // Referência para o campo de nome
                         />
-                        <button 
-                            type="button" 
-                            className="signup-password-toggle" 
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                        >
-                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                        </button>
                     </div>
-                </div>
 
-                <div className="input-group">
-                    <label htmlFor="crm" className="input-label">CRM (Opcional)</label>
-                    <Input
-                        id="crm"
-                        type="text"
-                        placeholder="Digite seu CRM"
-                        value={crm}
-                        onChange={(e) => setCrm(e.target.value)}
-                    />
-                </div>
-
-                {error && <label className="signup-label-error">{error}</label>}
-                {success && 
-                    <div className="success-message">
-                        <span className="success-message-icon">✔️</span>
-                        <span>{success}</span>
+                    <div className="input-group">
+                        <label htmlFor="email" className="input-label">E-mail <span className="required">*</span></label>
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="Digite seu E-mail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
-                }
 
-                <Button className="signup-button" Text="Cadastrar" onClick={handleSignup} />
+                    <div className="input-group">
+                        <label htmlFor="emailConf" className="input-label">Confirme seu E-mail <span className="required">*</span></label>
+                        <Input
+                            id="emailConf"
+                            type="email"
+                            placeholder="Confirme seu E-mail"
+                            value={emailConf}
+                            onChange={(e) => setEmailConf(e.target.value)}
+                        />
+                    </div>
 
-                <label className="signup-label-signup">
-                    Já tem uma conta?
-                    <strong className="signup-strong">
-                        <Link to="/">&nbsp;Entrar</Link>
-                    </strong>
-                </label>
+                    <div className="input-group">
+                        <label htmlFor="senha" className="input-label">Senha <span className="required">*</span></label>
+                        <div className="signup-password-container">
+                            <Input
+                                id="senha"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Digite sua Senha"
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className="signup-password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                            >
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="input-group">
+                        <label htmlFor="crm" className="input-label">CRM (Opcional)</label>
+                        <Input
+                            id="crm"
+                            type="text"
+                            placeholder="Digite seu CRM"
+                            value={crm}
+                            onChange={(e) => setCrm(e.target.value)}
+                        />
+                    </div>
+
+                    {error && <label className="signup-label-error">{error}</label>}
+                    {success &&
+                        <div className="success-message">
+                            <span className="success-message-icon">✔️</span>
+                            <span>{success}</span>
+                        </div>
+                    }
+
+                    <Button className="signup-button" Text="Cadastrar" onClick={handleSignup} />
+
+                    <label className="signup-label-signup">
+                        Já tem uma conta?
+                        <strong className="signup-strong">
+                            <Link to="/">&nbsp;Entrar</Link>
+                        </strong>
+                    </label>
+                </div>
             </div>
-        </div>
     );
 };
 
