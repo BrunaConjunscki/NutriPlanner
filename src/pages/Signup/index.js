@@ -46,12 +46,17 @@ const SignUp = () => {
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json'
             },
         })
             .then((response) => response.json())
             .then((data) => {
-                setSuccess(data.success);
-                setTimeout(() => navigate("/"), 2000);
+                if(data.success) {
+                    setSuccess(data.message);
+                    setTimeout(() => navigate("/"), 2000);
+                } else {
+                    setError(data.message)
+                }
             })
             .catch((err) => {
                 setError(err.message);

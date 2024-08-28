@@ -50,26 +50,70 @@ const SignIn = () => {
 
         setLoading(true);
 
-        const res = await signin(email, senha);
+        await fetch('http://localhost:8000/api/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: senha,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json'
+            },
+        })
+            .then((response) => response.json())
+            .then(data => {
+                if(data.success) {
+                    localStorage.setItem('user_token', data.token);
+                    signin(email, senha);
+                    navigate("/home");
+                } else {
+                    setError((data.message))
+                }
+            })
+            .catch((err) => {
+                setError(err.message);
+                console.log(err.message);
+            });
+
 
         setLoading(false);
-
-        if (res) {
-            setAttempts(prevAttempts => {
-                const newAttempts = prevAttempts + 1;
-                if (newAttempts >= 5) {
-                    setLocked(true);
-                    setTimeout(() => setLocked(false), 15 * 60 * 1000); // 15 minutos
-                }
-                return newAttempts;
-            });
-            setError(res);
-            return;
-        }
-
-        setAttempts(0);
-        navigate("/home");
+        //
+        // if (res) {
+        //     setAttempts(prevAttempts => {
+        //         const newAttempts = prevAttempts + 1;
+        //         if (newAttempts >= 5) {
+        //             setLocked(true);
+        //             setTimeout(() => setLocked(false), 15 * 60 * 1000); // 15 minutos
+        //         }
+        //         return newAttempts;
+        //     });
+        //     setError(res);
+        //     return;
+        // }
+        //
+        // setAttempts(0);
+        // navigate("/home");
     };
+
+    const handleTeste = async () =>  {
+        await fetch('http://localhost:8000/api/teste', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        })
+            .then((response) => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch((err) => {
+                setError(err.message);
+                console.log(err.message);
+            });
+    }
 
     return (
         <div className="container">

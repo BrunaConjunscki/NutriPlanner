@@ -34,11 +34,12 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+//        Auth::login($user);
+//        AuthenticatedSessionController::store($user);
 
         return response()->json([
-            'success' => 'Usuário criado com sucesso!',
-            'user' => $user,
+            'success' => true,
+            'message' => 'Usuário cadastrado com sucesso.'
         ], 200);
     }
 }
