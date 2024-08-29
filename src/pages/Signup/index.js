@@ -5,6 +5,8 @@ import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from 'axios';
+import {setAuthenticationHeader} from "../../utils/authHeader";
 
 const SignUp = () => {
     const [nome, setNome] = useState("");
@@ -36,32 +38,23 @@ const SignUp = () => {
             return;
         }
 
-        await fetch('http://localhost:8000/api/register', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: nome,
-                email: email,
-                email_confirmation: emailConf,
-                password: senha,
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json'
-            },
+        axios.post('http://localhost:8000/api/register', {
+            name: nome,
+            email: email,
+            email_confirmation: emailConf,
+            password: senha,
+        }).then((response) => {
+            if(response.data.success) {
+                setSuccess(response.data.message);
+                setTimeout(() => navigate("/"), 2000);
+            } else {
+                setError(response.data.message)
+            }
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if(data.success) {
-                    setSuccess(data.message);
-                    setTimeout(() => navigate("/"), 2000);
-                } else {
-                    setError(data.message)
-                }
-            })
-            .catch((err) => {
-                setError(err.message);
-                console.log(err.message);
-            });
+        .catch((err) => {
+            setError(err.message);
+            console.log(err.message);
+        });
 
         //
         // const res = await signup(email, senha);

@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import './styles.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from 'axios';
+import {setAuthenticationHeader} from "../../utils/authHeader";
 
 const SignIn = () => {
     const { signin } = useAuth();
@@ -50,31 +52,21 @@ const SignIn = () => {
 
         setLoading(true);
 
-        await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: email,
-                password: senha,
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json'
-            },
-        })
-            .then((response) => response.json())
-            .then(data => {
-                if(data.success) {
-                    localStorage.setItem('user_token', data.token);
-                    signin(email, senha);
-                    navigate("/home");
-                } else {
-                    setError((data.message))
-                }
-            })
-            .catch((err) => {
-                setError(err.message);
-                console.log(err.message);
-            });
+        axios.post('http://localhost:8000/api/login', {
+            email: email,
+            password: senha,
+        }).then(response => {
+            if(response.data.success) {
+                localStorage.setItem('user_token', response.data.token);
+                signin(email, senha);
+                setAuthenticationHeader(response.data.token)
+                navigate("/home");
+            } else {
+                setError((response.data.message))
+            }
+        }).catch(err => {
+            console.log(err)
+        });
 
 
         setLoading(false);
