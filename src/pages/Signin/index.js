@@ -2,14 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import './styles.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 import {setAuthenticationHeader} from "../../utils/authHeader";
+import {connect} from "react-redux";
 
-const SignIn = () => {
-    const { signin } = useAuth();
+const SignIn = (props) => {
     const navigate = useNavigate();
     const emailRef = useRef(null);
 
@@ -58,9 +57,9 @@ const SignIn = () => {
         }).then(response => {
             if(response.data.success) {
                 localStorage.setItem('user_token', response.data.token);
-                signin(email, senha);
                 setAuthenticationHeader(response.data.token)
                 navigate("/home");
+                props.onLoggedIn();
             } else {
                 setError((response.data.message))
             }
@@ -88,24 +87,6 @@ const SignIn = () => {
         // navigate("/home");
     };
 
-    const handleTeste = async () =>  {
-        await fetch('http://localhost:8000/api/teste', {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        })
-            .then((response) => response.json())
-            .then(data => {
-                console.log(data)
-            })
-            .catch((err) => {
-                setError(err.message);
-                console.log(err.message);
-            });
-    }
 
     return (
         <div className="container">
@@ -171,4 +152,10 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLoggedIn: () => dispatch({type: 'ON_LOGGED_IN'})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SignIn);

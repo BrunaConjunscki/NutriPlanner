@@ -3,10 +3,8 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
-import {setAuthenticationHeader} from "../../utils/authHeader";
 
 const SignUp = () => {
     const [nome, setNome] = useState("");
@@ -19,7 +17,6 @@ const SignUp = () => {
     const [success, setSuccess] = useState("");
 
     const navigate = useNavigate();
-    const { signup } = useAuth();
 
     const nomeRef = useRef(null);
 
