@@ -13,8 +13,9 @@ const SignUp = () => {
     const [senha, setSenha] = useState("");
     const [crm, setCrm] = useState("");
     const [error, setError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false); // Estado de carregamento
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
     const { signup } = useAuth();
@@ -36,7 +37,11 @@ const SignUp = () => {
             return;
         }
 
+        setLoading(true); // Começa o carregamento
+
         const res = await signup(email, senha);
+        setLoading(false); // Fim do carregamento
+
         if (res) {
             setError(res);
             return;
@@ -125,7 +130,12 @@ const SignUp = () => {
                     </div>
                 }
 
-                <Button className="signup-button" Text="Cadastrar" onClick={handleSignup} />
+                <Button 
+                    className="signup-button" 
+                    Text={loading ? <span className="loading-spinner"></span> : "Cadastrar"} 
+                    onClick={handleSignup} 
+                    disabled={loading} 
+                />
 
                 <label className="signup-label-signup">
                     Já tem uma conta?
