@@ -11,7 +11,7 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [emailConf, setEmailConf] = useState("");
     const [senha, setSenha] = useState("");
-    const [crm, setCrm] = useState("");
+    const [crn, setCrn] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false); // Estado de carregamento
@@ -41,6 +41,7 @@ const SignUp = () => {
             email: email,
             email_confirmation: emailConf,
             password: senha,
+            crn: crn,
         }).then((response) => {
             if(response.data.success) {
                 setSuccess(response.data.message);
@@ -126,13 +127,13 @@ const SignUp = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="crm" className="input-label">CRM (Opcional)</label>
+                        <label htmlFor="crn" className="input-label">CRN (Opcional)</label>
                         <Input
-                            id="crm"
+                            id="crn"
                             type="text"
-                            placeholder="Digite seu CRM"
-                            value={crm}
-                            onChange={(e) => setCrm(e.target.value)}
+                            placeholder="Digite seu CRN"
+                            value={crn}
+                            onChange={(e) => setCrn(e.target.value)}
                         />
                     </div>
 

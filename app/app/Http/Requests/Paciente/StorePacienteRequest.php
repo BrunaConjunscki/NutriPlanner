@@ -34,4 +34,15 @@ class StorePacienteRequest extends FormRequest
             'telefone' => ['nullable', 'string', 'unique:pacientes'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatorio.',
+            'string' => 'O campo :attribute deve ser do tipo texto.',
+            'date' => 'O campo :attribute deve ser uma data valida.',
+            'before_or_equal' => 'O campo :attribute deve possuir uma data anterior a data de hoje.',
+            'nome_responsavel.required' => 'O campo nome do responsável é obrigatório para pacientes com menos de 18 anos.'
+        ];
+    }
 }

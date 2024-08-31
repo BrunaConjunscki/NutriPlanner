@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Nutricionista;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -27,19 +28,25 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
+
+        $nutricionista = Nutricionista::create([
+            'nome' => $request->name,
+            'user_id' => $user->id,
+//            'crn' => $request->crn,
+        ]);
+
         event(new Registered($user));
 
-//        Auth::login($user);
-//        AuthenticatedSessionController::store($user);
 
         return response()->json([
             'success' => true,
-            'message' => 'Usuário cadastrado com sucesso.'
+            'message' => 'Usuário cadastrado com sucesso.',
+            'nutricionista' => $nutricionista,
+            'user' => $user,
         ], 200);
     }
 }

@@ -13,7 +13,7 @@ class UpdatePacienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->nutricionista->id === $this->paciente->nutricionista_id;
     }
 
     /**
@@ -30,7 +30,7 @@ class UpdatePacienteRequest extends FormRequest
             'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18), 'string'],
             'anamnese' => ['required', 'string'],
             'objetivo' => ['required', 'string'],
-            'email' => ['required', Rule::unique('pacientes')->ignore($this->user()->id),'email:rfc,dns'],
+            'email' => ['required', Rule::unique('pacientes')->ignore($this->paciente->id),'email:rfc,dns'],
             'telefone' => ['nullable', 'string', 'unique:pacientes'],
         ];
     }
@@ -38,7 +38,11 @@ class UpdatePacienteRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nome.required' => 'O campo nome é obrigatorio.',
+            'required' => 'O campo :attribute é obrigatorio.',
+            'string' => 'O campo :attribute deve ser do tipo texto.',
+            'date' => 'O campo :attribute deve ser uma data valida.',
+            'before_or_equal' => 'O campo :attribute deve possuir uma data anterior a data de hoje.',
+            'nome_responsavel.required' => 'O campo nome do responsável é obrigatório para pacientes com menos de 18 anos.'
         ];
     }
 }

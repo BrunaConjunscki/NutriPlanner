@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PacienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/pacientes')->middleware('auth:sanctum')->controller(\App\Http\Controllers\PacienteController::class)->group(function () {
+Route::prefix('/pacientes')->middleware('auth:sanctum')->controller(PacienteController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{paciente}', 'show');

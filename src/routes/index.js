@@ -13,8 +13,8 @@ const RoutesApp = (props) => {
             <Fragment>
                 <Routes>
                     <Route path="/home" element= {props.isLoggedIn ? <Home /> : <Navigate to={'/'} /> } />
-                    <Route path="/" element={<SignIn />} />
-                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/" element={props.isLoggedIn ? <Navigate to={'/home'} /> : <SignIn />} />
+                    <Route path="/signup" element={props.isLoggedIn ? <Navigate to={'/home'} /> : <SignUp />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Nova rota */}
                     <Route path="*" element={<Navigate to={'/home'} />} />
                 </Routes>
