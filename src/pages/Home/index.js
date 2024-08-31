@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./styles.css";
 import axios from 'axios';
 import {connect} from "react-redux";
 import {setAuthenticationHeader} from "../../utils/authHeader";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
-import { useLocation } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Home = (props) => {
     const navigate = useNavigate();
@@ -25,22 +25,6 @@ const Home = (props) => {
             .catch(error => {
                 console.log(error)
             })
-    }
-
-    const handleLogout = () => {
-        axios.post('http://localhost:8000/api/logout')
-            .then(response => {
-                if(response.data.success) {
-                    localStorage.removeItem('user_token')
-                    setAuthenticationHeader();
-                    navigate('/login')
-                    props.onLoggedOut();
-                } else {
-                    console.log(response.data.message)
-                }
-            }).catch(error => {
-                console.log(error)
-        })
     }
 
     // Itens do menu com rotas

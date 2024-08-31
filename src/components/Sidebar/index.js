@@ -3,9 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaSignOutAlt, FaUtensils, FaStethoscope, FaCog } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import "./styles.css";
+import axios from "axios";
+import {setAuthenticationHeader} from "../../utils/authHeader";
+import {connect} from "react-redux";
 
-const Sidebar = () => {
-    const { signout } = useAuth();
+const Sidebar = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -17,6 +19,22 @@ const Sidebar = () => {
         { name: "Refeições", path: "/refeicoes", icon: <FaUtensils /> },
         { name: "Configurações", path: "/configuracoes", icon: <FaCog /> }
     ];
+
+    const handleLogout = () => {
+        axios.post('http://localhost:8000/api/logout')
+            .then(response => {
+                if(response.data.success) {
+                    localStorage.removeItem('user_token')
+                    setAuthenticationHeader();
+                    navigate('/')
+                    props.onLoggedOut();
+                } else {
+                    console.log(response.data.message)
+                }
+            }).catch(error => {
+            console.log(error)
+        })
+    }
 
     return (
         <aside className="sidebar">
@@ -36,7 +54,7 @@ const Sidebar = () => {
             <Link
                 to="#"
                 className="menu-item signout"
-                onClick={() => [signout(), navigate("/")]}
+                onClick={handleLogout}
             >
                 <span className="menu-icon"><FaSignOutAlt /></span>
                 <span className="menu-text">Sair</span>
@@ -45,4 +63,12 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLoggedOut: () => dispatch({type: 'ON_LOGGED_OUT'})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Sidebar);
+
