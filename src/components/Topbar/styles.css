@@ -1,0 +1,24 @@
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f2f5;
+    padding: 20px;
+    /* width: calc(100% - 240px); */
+    /* height: 50px; */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.topbar h2 {
+    margin: 0;
+}
+
+.topbar-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.icon {
+    font-size: 24px;
+    cursor: pointer;
+}

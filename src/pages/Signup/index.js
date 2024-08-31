@@ -13,8 +13,9 @@ const SignUp = () => {
     const [senha, setSenha] = useState("");
     const [crm, setCrm] = useState("");
     const [error, setError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false); // Estado de carregamento
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
