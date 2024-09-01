@@ -12,7 +12,7 @@ class StoreConsultaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Paciente::find($this->paciente_id)->nutricionista_id === $this->user()->nutricionista->id;
+        return $this->paciente->nutricionista_id === $this->user()->nutricionista->id;
 
     }
 

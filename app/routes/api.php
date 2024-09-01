@@ -26,15 +26,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', 'store');
         Route::get('/{paciente}', 'show');
         Route::put('/{paciente}', 'update');
+
+        Route::prefix('/{paciente}/consultas')->controller(ConsultaController::class)->group(function () {
+            Route::post('/', 'store');
+            Route::get('/{consulta}', 'show');
+            Route::get('/', 'index');
+        });
     });
-
-    Route::prefix('consultas')->controller(ConsultaController::class)->group(function () {
-        Route::post('/', 'store');
-        Route::get('/{consulta}', 'show');
-        Route::get('/', 'index');
-    });
-
-
 });
 
 Route::get('/addPacientes', function() {

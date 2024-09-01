@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Consulta\StoreConsultaRequest;
 use App\Models\Consulta;
-use Illuminate\Http\Request;
+use App\Models\Paciente;
 
 class ConsultaController extends Controller
 {
-    public function store(StoreConsultaRequest $request) {
+    public function store(StoreConsultaRequest $request, Paciente $paciente) {
         $consulta = Consulta::create([
-            'paciente_id' => $request->paciente_id,
+            'paciente_id' => $paciente->id,
             'nutricionista_id' => $request->user()->nutricionista->id,
         ]);
 
@@ -21,19 +21,15 @@ class ConsultaController extends Controller
         ]);
     }
 
-    public function show(Consulta $consulta) {
+    public function show(Paciente $paciente, Consulta $consulta) {
         return response()->json([
             $consulta,
         ]);
     }
 
-    public function index(Request $request) {
-        if($request->has('paciente_id')) {
-            $consultas = Consulta::where('paciente_id', $request->paciente_id)
-                ->get();
-            return response()->json([$consultas]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Informe o paciente'], 400);
+    public function index(Paciente $paciente) {
+        $consultas = Consulta::where('paciente_id', $paciente->id)
+            ->get();
+        return response()->json([$consultas]);
     }
 }
