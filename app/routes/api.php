@@ -32,6 +32,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/{consulta}', 'show');
             Route::get('/', 'index');
         });
+
+        Route::prefix('/{paciente}/refeicoes')->controller(\App\Http\Controllers\RefeicaoController::class)->group(function () {
+            Route::post('/', 'store');
+            Route::get('/{refeicao}', 'show');
+        });
     });
 });
 
