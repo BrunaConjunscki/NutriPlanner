@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\PacienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/pacientes')->middleware('auth:sanctum')->controller(PacienteController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::post('/', 'store');
-    Route::get('/{paciente}', 'show');
-    Route::put('/{paciente}', 'update');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('/pacientes')->controller(PacienteController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{paciente}', 'show');
+        Route::put('/{paciente}', 'update');
+
+        Route::prefix('/{paciente}/consultas')->controller(ConsultaController::class)->group(function () {
+            Route::post('/', 'store');
+            Route::get('/{consulta}', 'show');
+            Route::get('/', 'index');
+        });
+
+        Route::prefix('/{paciente}/dietas')->controller(\App\Http\Controllers\DietaController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::post('/', 'store');
+            Route::get('/{dieta}', 'show');
+        });
+    });
 });
 
 Route::get('/addPacientes', function() {

@@ -20,4 +20,8 @@ class Paciente extends Model
         'telefone',
         'nutricionista_id',
     ];
+
+    public function dietas() {
+        return $this->hasMany(Dieta::class);
+    }
 }
