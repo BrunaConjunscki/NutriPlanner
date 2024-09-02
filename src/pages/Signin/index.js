@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
-import './styles.css';
+import './signin.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
-import {setAuthenticationHeader} from "../../utils/authHeader";
-import {connect} from "react-redux";
+import { setAuthenticationHeader } from "../../utils/authHeader";
+import { connect } from "react-redux";
 
 const SignIn = (props) => {
     const navigate = useNavigate();
@@ -17,7 +17,6 @@ const SignIn = (props) => {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [attempts, setAttempts] = useState(0);
     const [locked, setLocked] = useState(false);
 
     useEffect(() => {
@@ -55,97 +54,75 @@ const SignIn = (props) => {
             email: email,
             password: senha,
         }).then(response => {
-            if(response.data.success) {
+            if (response.data.success) {
                 localStorage.setItem('user_token', response.data.token);
-                setAuthenticationHeader(response.data.token)
+                setAuthenticationHeader(response.data.token);
                 navigate("/home");
                 props.onLoggedIn();
             } else {
-                setError((response.data.message))
+                setError(response.data.message);
             }
         }).catch(err => {
-            console.log(err)
+            console.log(err);
         });
 
-
         setLoading(false);
-        //
-        // if (res) {
-        //     setAttempts(prevAttempts => {
-        //         const newAttempts = prevAttempts + 1;
-        //         if (newAttempts >= 5) {
-        //             setLocked(true);
-        //             setTimeout(() => setLocked(false), 15 * 60 * 1000); // 15 minutos
-        //         }
-        //         return newAttempts;
-        //     });
-        //     setError(res);
-        //     return;
-        // }
-        //
-        // setAttempts(0);
-        // navigate("/home");
     };
 
-
     return (
-        <div className="container">
-            <label className="label">SISTEMA DE LOGIN</label>
-            <div className="content">
-                <div className="input-group">
-                    <label htmlFor="email" className="input-label">E-mail <span className="required">*</span></label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="Digite seu E-mail"
-                        value={email}
-                        onChange={(e) => [setEmail(e.target.value), setError("")]}
-                        aria-label="Email"
-                        autoComplete="email"
-                        ref={emailRef}
-                    />
-                </div>
-
-                <div className="input-group">
-                    <label htmlFor="senha" className="input-label">Senha <span className="required">*</span></label>
-                    <div className="password-container">
+        <div className="signin-container">
+            <div className="signin-left">
+                <img src="/images/AlimentosLogin.png" alt="Alimentos" className="signin-image" />
+            </div>
+            <div className="signin-right">
+                <div className="signin-content">
+                <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="signin-logo-image" />
+                    <h2 className="signin-title">Entrar</h2>
+                    <div className="input-group">
+                        <label htmlFor="email" className="input-label">Email</label>
                         <Input
-                            id="senha"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Digite sua Senha"
-                            value={senha}
-                            onChange={(e) => [setSenha(e.target.value), setError("")]}
-                            aria-label="Senha"
-                            autoComplete="current-password"
+                            id="email"
+                            type="email"
+                            placeholder="Digite seu Email"
+                            value={email}
+                            onChange={(e) => [setEmail(e.target.value), setError("")]}
+                            aria-label="Email"
+                            autoComplete="email"
+                            ref={emailRef}
                         />
-                        <button 
-                            type="button" 
-                            className="password-toggle" 
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                        >
-                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                        </button>
                     </div>
-                </div>
-
-                {error && <label className="label-error" aria-live="assertive">{error}</label>}
-
-                <Button 
-                    Text={loading ? <span className="loading-spinner"></span> : "Entrar"} 
-                    onClick={handleLogin}
-                    disabled={loading}
-                />
-
-                <label className="label-signup">
-                    Não tem uma conta?
-                    <strong className="strong">
-                        <Link to="/signup">&nbsp;Registre-se</Link>
-                    </strong>
-                </label>
-
-                <div className="forgot-password">
-                    <Link to="/forgot-password">Esqueceu a senha?</Link>
+                    <div className="input-group">
+                        <label htmlFor="senha" className="input-label">Senha</label>
+                        <div className="password-container">
+                            <Input
+                                id="senha"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Digite sua Senha"
+                                value={senha}
+                                onChange={(e) => [setSenha(e.target.value), setError("")]}
+                                aria-label="Senha"
+                                autoComplete="current-password"
+                            />
+                            <button 
+                                type="button" 
+                                className="password-toggle" 
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                            >
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            </button>
+                        </div>
+                    </div>
+                    {error && <label className="label-error">{error}</label>}
+                    <Button 
+                        Text={loading ? <span className="loading-spinner"></span> : "Entrar"} 
+                        onClick={handleLogin}
+                        disabled={loading}
+                    />
+                    <div className="signin-footer">
+                        <p>Não tem conta? <Link to="/signup">Registrar-se</Link></p>
+                        <p><Link to="/forgot-password">Esqueceu a senha?</Link></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,8 +131,8 @@ const SignIn = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLoggedIn: () => dispatch({type: 'ON_LOGGED_IN'})
-    }
-}
+        onLoggedIn: () => dispatch({ type: 'ON_LOGGED_IN' })
+    };
+};
 
 export default connect(null, mapDispatchToProps)(SignIn);

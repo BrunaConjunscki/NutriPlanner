@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import "./styles.css";
+import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
@@ -14,7 +14,6 @@ const SignUp = () => {
     const [crn, setCrn] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState(false); // Estado de carregamento
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
@@ -54,23 +53,17 @@ const SignUp = () => {
             setError(err.message);
             console.log(err.message);
         });
-
-        //
-        // const res = await signup(email, senha);
-        // if (res) {
-        //     setError(res);
-        //     return;
-        // }
-        //
-        // setSuccess("Cadastro finalizado com sucesso!");
-        // setError("");
-        // setTimeout(() => navigate("/"), 2000); // Redireciona após 2 segundos
     };
 
     return (
-            <div className="signup-container">
-                <label className="signup-label">SISTEMA DE CADASTRO</label>
+        <div className="signup-container">
+            <div className="signup-left">
+                <img src="/images/AlimentosLogin.png" alt="Alimentos" className="signup-image" />
+            </div>
+            <div className="signup-right">
                 <div className="signup-content">
+                    <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="signup-logo-image" />
+                    <h2 className="signup-title">Cadastro</h2>
                     <div className="input-group">
                         <label htmlFor="nome" className="input-label">Nome Completo <span className="required">*</span></label>
                         <Input
@@ -107,7 +100,7 @@ const SignUp = () => {
 
                     <div className="input-group">
                         <label htmlFor="senha" className="input-label">Senha <span className="required">*</span></label>
-                        <div className="signup-password-container">
+                        <div className="password-container">
                             <Input
                                 id="senha"
                                 type={showPassword ? "text" : "password"}
@@ -117,7 +110,7 @@ const SignUp = () => {
                             />
                             <button
                                 type="button"
-                                className="signup-password-toggle"
+                                className="password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                             >
@@ -155,6 +148,7 @@ const SignUp = () => {
                     </label>
                 </div>
             </div>
+        </div>
     );
 };
 

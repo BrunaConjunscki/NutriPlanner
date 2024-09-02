@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import useAuth from '../../hooks/useAuth';
-import './styles.css';
+import './forgot.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
