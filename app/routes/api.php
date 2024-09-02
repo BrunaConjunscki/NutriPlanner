@@ -33,9 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', 'index');
         });
 
-        Route::prefix('/{paciente}/refeicoes')->controller(\App\Http\Controllers\RefeicaoController::class)->group(function () {
+        Route::prefix('/{paciente}/dietas')->controller(\App\Http\Controllers\DietaController::class)->group(function () {
+            Route::get('/', 'index');
             Route::post('/', 'store');
-            Route::get('/{refeicao}', 'show');
+            Route::get('/{dieta}', 'show');
         });
     });
 });
