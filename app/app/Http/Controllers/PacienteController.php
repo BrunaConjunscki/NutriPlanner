@@ -10,14 +10,21 @@ use Illuminate\Http\Request;
 class PacienteController extends Controller
 {
     public function index(Request $request) {
-        if($request->has('limit')) {
-            $pacientes = Paciente::limit($request->limit)
-                ->where('nutricionista_id', $request->user()->nutricionista->id)
-                ->orderBy('id', 'DESC')
-                ->get();
-        } else {
-            $pacientes = Paciente::where('nutricionista_id', $request->user()->nutricionista->id)->get();
+        $query = Paciente::query()
+            ->where('nutricionista_id', $request->user()->nutricionista->id);
+
+        foreach ($request->all() as $filtro => $valor) {
+            if($filtro === 'limit') {
+                $query = $query->limit($valor);
+            }
+
+            if(str_contains('nome nome_responsavel sexo', $filtro)) {
+                $query->where($filtro, 'ilike', '%' . $valor . '%');
+            }
         }
+
+
+        $pacientes = $query->orderBy('data_cadastro')->get();
 
         return response()->json($pacientes, 200);
     }
