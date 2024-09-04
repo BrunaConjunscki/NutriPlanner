@@ -15,7 +15,7 @@ class PacienteController extends Controller
 
         foreach ($request->all() as $filtro => $valor) {
             if($filtro === 'limit') {
-                $query = $query->limit($valor);
+                $query->limit($valor);
             }
 
             if(str_contains('nome nome_responsavel sexo', $filtro)) {
