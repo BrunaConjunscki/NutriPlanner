@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Dieta\StoreDietaRequest;
+use App\Http\Requests\Dieta\UpdateDietaRequest;
 use App\Models\Dieta;
 use App\Models\ItemOpcao;
 use App\Models\Opcao;
 use App\Models\Paciente;
 use App\Models\Refeicao;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DietaController extends Controller
@@ -25,8 +26,7 @@ class DietaController extends Controller
         return response()->json([$dietas]);
     }
 
-    public function store(Request $request, Paciente $paciente) {
-
+    public function store(StoreDietaRequest $request, Paciente $paciente) {
         $dieta_atual = Dieta::where('paciente_id', $paciente->id)
             ->where('atual', true)
             ->first();
@@ -36,13 +36,30 @@ class DietaController extends Controller
             $dieta_atual->save();
         }
 
-        $dieta = new Dieta();
+        $dieta = $this->atualizaDados($request->validated(), $paciente, new Dieta());
+
+        return response()->json([
+            'success' => true,
+            'dieta' => $dieta
+        ]);
+    }
+
+    public function update(UpdateDietaRequest $request, Paciente $paciente, Dieta $dieta) {
+        $dieta = $this->atualizaDados($request->validated(), $paciente, $dieta);
+
+        return response()->json([
+            'success' => true,
+            'dieta' => $dieta
+        ]);
+    }
+
+    private function atualizaDados(array $validated_request, Paciente $paciente, Dieta $dieta) : Dieta {
         $dieta->paciente_id = $paciente->id;
         $dieta->atual = true;
-        $dieta->nome = $request->nome;
+        $dieta->nome = $validated_request['nome'];
         $dieta->save();
 
-        foreach($request->all()['refeicoes'] as $refeicao) {
+        foreach($validated_request['refeicoes'] as $refeicao) {
             $newRefeicao = new Refeicao();
             $newRefeicao->dieta_id = $dieta->id;
             $newRefeicao->horario = date('H:i', strtotime($refeicao['horario']));
@@ -67,10 +84,7 @@ class DietaController extends Controller
             }
         }
 
-        return response()->json([
-            'success' => true,
-            'dieta' => $dieta
-        ]);
+        return $dieta;
     }
 
     public function show(Paciente $paciente, Dieta $dieta) {
@@ -80,6 +94,8 @@ class DietaController extends Controller
                 'message' => 'Você não possui permissão para acessar as dietas desse paciente',
             ]);
         }
+
+        $dieta->load('refeicoes');
 
         return response()->json([$dieta]);
     }

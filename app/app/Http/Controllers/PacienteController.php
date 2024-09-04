@@ -24,7 +24,7 @@ class PacienteController extends Controller
         }
 
 
-        $pacientes = $query->orderBy('data_cadastro')->get();
+        $pacientes = $query->orderBy('data_cadastro', 'desc')->get();
 
         return response()->json($pacientes, 200);
     }

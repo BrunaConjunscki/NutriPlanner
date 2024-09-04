@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', 'index');
             Route::post('/', 'store');
             Route::get('/{dieta}', 'show');
+            Route::put('/{dieta}', 'update');
         });
     });
 });

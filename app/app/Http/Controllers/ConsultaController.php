@@ -14,6 +14,11 @@ class ConsultaController extends Controller
             'nutricionista_id' => $request->user()->nutricionista->id,
         ]);
 
+        if($request->has('anamnese')) {
+            $paciente->anamnese = $request->anamnese;
+            $paciente->save();
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Consulta cadastrada com sucesso!',
