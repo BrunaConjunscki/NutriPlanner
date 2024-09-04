@@ -11,6 +11,11 @@ class Refeicao extends Model
     protected $table = 'refeicoes';
     public $timestamps = false;
 
+    protected $fillable = [
+        'nome',
+        'horario',
+    ];
+
     public function opcoes() {
         return $this->hasMany(Opcao::class);
     }

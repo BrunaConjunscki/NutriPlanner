@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\PacienteController;
 use Illuminate\Http\Request;
@@ -40,6 +41,14 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{dieta}', 'update');
         });
     });
+
+    Route::prefix('/alimentos')->controller(AlimentoController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{alimento}', 'show');
+        Route::put('/{alimento}', 'update');
+    });
+
 });
 
 Route::get('/addPacientes', function() {

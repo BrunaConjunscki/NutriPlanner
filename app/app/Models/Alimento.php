@@ -15,6 +15,14 @@ class Alimento extends Model
     use HasFactory;
     public $timestamps = false;
 
+    protected $fillable = [
+        'descricao',
+        'codigo',
+        'preparo_id',
+        'categoria_id',
+        'nutricionista_id',
+    ];
+
     public function preparo() {
         return $this->belongsTo(Preparo::class);
     }
