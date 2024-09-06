@@ -23,4 +23,8 @@ class Opcao extends Model
     public function item_opcao() {
         return $this->hasMany(ItemOpcao::class);
     }
+
+    public function alimentos() {
+        return $this->belongsToMany(Alimento::class, 'item_opcao', 'opcao_id', 'alimento_id')->withPivot('quantidade', 'medida_id', 'observacao');
+    }
 }

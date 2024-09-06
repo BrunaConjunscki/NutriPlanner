@@ -60,26 +60,13 @@ class DietaController extends Controller
         $dieta->save();
 
         foreach($validated_request['refeicoes'] as $refeicao) {
-            $newRefeicao = new Refeicao();
-            $newRefeicao->dieta_id = $dieta->id;
-            $newRefeicao->horario = date('H:i', strtotime($refeicao['horario']));
-            $newRefeicao->nome = $refeicao['nome'];
-            $newRefeicao->save();
+            $newRefeicao = RefeicaoController::create($refeicao, $dieta);
 
             foreach($refeicao['opcoes'] as $opcao) {
-                $newOpcao = new Opcao();
-                $newOpcao->nome = $opcao['nome'];
-                $newOpcao->refeicao_id = $newRefeicao->id;
-                $newOpcao->save();
+                $newOpcao = OpcaoController::create($opcao, $newRefeicao);
 
                 foreach($opcao['alimentos'] as $alimento) {
-                    $newItemOpcao = new ItemOpcao();
-                    $newItemOpcao->opcao_id = $newOpcao->id;
-                    $newItemOpcao->alimento_id = $alimento['alimento_id'];
-                    $newItemOpcao->medida_id = $alimento['medida_id'];
-                    $newItemOpcao->quantidade = $alimento['quantidade'];
-                    $newItemOpcao->observacao = $alimento['observacao'] ?? null;
-                    $newItemOpcao->save();
+                    $newItemOpcao = ItemOpcaoController::create($alimento, $newOpcao);
                 }
             }
         }

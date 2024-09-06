@@ -14,6 +14,8 @@ class Refeicao extends Model
     protected $fillable = [
         'nome',
         'horario',
+        'dieta_id',
+
     ];
 
     public function opcoes() {
