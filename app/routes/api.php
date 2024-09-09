@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\DietaController;
+use App\Http\Controllers\DietaTemplateController;
 use App\Http\Controllers\PacienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', 'index');
         });
 
-        Route::prefix('/{paciente}/dietas')->controller(\App\Http\Controllers\DietaController::class)->group(function () {
+        Route::prefix('/{paciente}/dietas')->controller(DietaController::class)->group(function () {
             Route::get('/', 'index');
             Route::post('/', 'store');
             Route::get('/{dieta}', 'show');
@@ -49,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{alimento}', 'update');
     });
 
+    Route::prefix('/dieta_template')->controller(DietaTemplateController::class)->group(function () {
+        Route::post('/', 'store');
+    });
 });
 
 Route::get('/addPacientes', function() {
