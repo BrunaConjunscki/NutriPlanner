@@ -48,7 +48,7 @@ const Home = (props) => {
 
     const getPacientes = () => {
         setLoadingPaciente(true);
-        axios.get('http://localhost:8000/api/pacientes?limit=3')
+        axios.get('http://localhost:8000/api/pacientes?limit=4')
             .then(response => {
                 setPacientes(response.data);
                 setLoadingPaciente(false);
@@ -62,7 +62,7 @@ const Home = (props) => {
 
     const getAnamnese = () => {
         setLoadingAnamnese(true);
-        axios.get('http://localhost:8000/api/anamneses?limit=3')
+        axios.get('http://localhost:8000/api/anamneses?limit=4')
             .then(response => {
                 setAnamnese(response.data);
                 setLoadingAnamnese(false);
@@ -105,15 +105,18 @@ const Home = (props) => {
     };
 
     const handleSuggestionClickPaciente = (suggestion) => {
+        navigate(`/paciente/${suggestion.id}`);
         setSearchTextPaciente(suggestion.nome);
         setSuggestionsPaciente([]);
     };
 
     const handleSuggestionClickAnamnese = (suggestion) => {
+        navigate(`/anamnese/${suggestion.id}`);
         setSearchTextAnamnese(suggestion.nome);
         setSuggestionsAnamnese([]);
     };
 
+    // Format date in cards
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');
@@ -149,37 +152,37 @@ const Home = (props) => {
                         <h2 className="section-title">Pacientes Cadastrados</h2>
                         <div className="section-content">
                             <div className="section-header">
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Busque pelo nome do paciente"
-                                    className="search-input"
-                                    value={searchTextPaciente}
-                                    onChange={handleSearchChangePaciente}
-                                    aria-label="Campo de busca de pacientes"
-                                />
-                                <FaSearch className="search-icon" />
-                                {suggestionsPaciente.length > 0 && (
-                                    <div className="suggestions-container">
-                                        {suggestionsPaciente.map(suggestion => (
-                                            <div
-                                                key={suggestion.id}
-                                                className="suggestion-item"
-                                                onClick={() => handleSuggestionClickPaciente(suggestion)}
-                                            >
-                                                {suggestion.nome}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <button className="buttonHome" onClick={() => navigate('/pacientes/novo')}>
-                                Novo Paciente
-                            </button>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Busque pelo nome do paciente"
+                                        className="search-input"
+                                        value={searchTextPaciente}
+                                        onChange={handleSearchChangePaciente}
+                                        aria-label="Campo de busca de pacientes"
+                                    />
+                                    <FaSearch className="search-icon" />
+                                    {suggestionsPaciente.length > 0 && (
+                                        <div className="suggestions-container">
+                                            {suggestionsPaciente.map(suggestion => (
+                                                <div
+                                                    key={suggestion.id}
+                                                    className="suggestion-item"
+                                                    onClick={() => handleSuggestionClickPaciente(suggestion)}
+                                                >
+                                                    {suggestion.nome}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                                <button className="buttonHome" onClick={() => navigate('/pacientes/novo')}>
+                                    Novo Paciente
+                                </button>
                             </div>
                             {/* {error && <p className="error-message">{error}</p>} */}
                             {loadingPaciente ? (
-                                <p>Carregando...</p>
+                                <p className="card-p">Carregando...</p>
                             ) : (
                                 <div className="card-list">
                                     {pacientes.length > 0 ? pacientes.map((paciente) => (
@@ -197,7 +200,7 @@ const Home = (props) => {
                                             </div>
                                         </div>
                                     )) : (
-                                        <p>Nenhum paciente encontrado.</p>
+                                        <p className="card-p">Nenhum paciente encontrado</p>
                                     )}
                                 </div>
                             )}
@@ -207,38 +210,38 @@ const Home = (props) => {
                     <div className="section">
                         <h2 className="section-title">Modelos Anamneses</h2>
                         <div className="section-content">
-                        <div className="section-header">
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Busque pelo nome da anamnese"
-                                    className="search-input"
-                                    value={searchTextAnamnese}
-                                    onChange={handleSearchChangeAnamnese}
-                                    aria-label="Campo de busca de anamneses"
-                                />
-                                <FaSearch className="search-icon" />
-                                {suggestionsAnamnese.length > 0 && (
-                                    <div className="suggestions-container">
-                                        {suggestionsAnamnese.map(suggestion => (
-                                            <div
-                                                key={suggestion.id}
-                                                className="suggestion-item"
-                                                onClick={() => handleSuggestionClickAnamnese(suggestion)}
-                                            >
-                                                {suggestion.nome}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <button className="buttonHome" onClick={() => navigate('/anamneses/novo')}>
-                                Novo Modelo
-                            </button>
+                            <div className="section-header">
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Busque pelo nome da anamnese"
+                                        className="search-input"
+                                        value={searchTextAnamnese}
+                                        onChange={handleSearchChangeAnamnese}
+                                        aria-label="Campo de busca de anamneses"
+                                    />
+                                    <FaSearch className="search-icon" />
+                                    {suggestionsAnamnese.length > 0 && (
+                                        <div className="suggestions-container">
+                                            {suggestionsAnamnese.map(suggestion => (
+                                                <div
+                                                    key={suggestion.id}
+                                                    className="suggestion-item"
+                                                    onClick={() => handleSuggestionClickAnamnese(suggestion)}
+                                                >
+                                                    {suggestion.nome}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                                <button className="buttonHome" onClick={() => navigate('/anamneses/novo')}>
+                                    Novo Modelo
+                                </button>
                             </div>
                             {/* {error && <p className="error-message">{error}</p>} */}
                             {loadingAnamnese ? (
-                                <p>Carregando...</p>
+                                <p className="card-p">Carregando...</p>
                             ) : (
                                 <div className="card-list">
                                     {anamnese.length > 0 ? anamnese.map((anamneseItem) => (
@@ -256,7 +259,7 @@ const Home = (props) => {
                                             </div>
                                         </div>
                                     )) : (
-                                        <p>Nenhum modelo encontrado.</p>
+                                        <p className="card-p">Nenhum modelo encontrado</p>
                                     )}
                                 </div>
                             )}

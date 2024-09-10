@@ -171,6 +171,13 @@
     color: #888;
 }
 
+.card-p {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #3C3D37;
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
     .card {
