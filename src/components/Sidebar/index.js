@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaSignOutAlt, FaUtensils, FaStethoscope, FaCog } from "react-icons/fa";
-import useAuth from "../../hooks/useAuth";
-import "./styles.css";
+import "./sidebar.css";
 import axios from "axios";
 import {setAuthenticationHeader} from "../../utils/authHeader";
 import {connect} from "react-redux";
@@ -16,8 +15,8 @@ const Sidebar = (props) => {
         { name: "Início", path: "/home", icon: <FaHome /> },
         { name: "Pacientes", path: "/pacientes", icon: <FaUser /> },
         { name: "Anamneses", path: "/anamneses", icon: <FaStethoscope /> },
-        { name: "Refeições", path: "/refeicoes", icon: <FaUtensils /> },
-        { name: "Configurações", path: "/configuracoes", icon: <FaCog /> }
+        { name: "Refeições", path: "/refeicoes", icon: <FaUtensils /> }
+        // { name: "Configurações", path: "/configuracoes", icon: <FaCog /> }
     ];
 
     const handleLogout = () => {
@@ -38,7 +37,9 @@ const Sidebar = (props) => {
 
     return (
         <aside className="sidebar">
-            <div className="logo">Nutriplanner</div>
+            <div className="logo">
+            <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="logo-image" />
+            </div>
             <nav className="menu">
                 {menuItems.map((item) => (
                     <Link

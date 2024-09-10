@@ -81,7 +81,7 @@ input:focus {
 /* visibilidade da senha */
 .password-toggle {
     position: absolute;
-    right: -140px;
+    right: -135px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;

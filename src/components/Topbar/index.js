@@ -11,8 +11,8 @@ const Topbar = ({ menuItems }) => {
         <header className="topbar">
             <h2>{menuItems.find((item) => item.path === location.pathname)?.name}</h2>
             <div className="topbar-icons">
-                <FaCog className="icon" onClick={() => navigate("/configuracoes")} />
-                <FaUserCircle className="icon" />
+                {/* <FaCog className="icon" onClick={() => navigate("/configuracoes")} /> */}
+                <FaUserCircle className="icon" onClick={() => navigate("/perfil")} /> 
             </div>
         </header>
     );
