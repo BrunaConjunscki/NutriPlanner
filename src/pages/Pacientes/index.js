@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
-import { FaUser, FaStethoscope, FaSearch } from "react-icons/fa";
-import "./home.css";
+import { FaUser, FaSearch } from "react-icons/fa";
+import "./pacientes.css";
 
-const Home = (props) => {
+const Pacientes = () => {
     const navigate = useNavigate();
     const [pacientes, setPacientes] = useState([]);
-    const [anamnese, setAnamnese] = useState([]);
     const [searchTextPaciente, setSearchTextPaciente] = useState("");
-    const [searchTextAnamnese, setSearchTextAnamnese] = useState("");
     const [suggestionsPaciente, setSuggestionsPaciente] = useState([]);
-    const [suggestionsAnamnese, setSuggestionsAnamnese] = useState([]);
     const [loadingPaciente, setLoadingPaciente] = useState(false);
-    const [loadingAnamnese, setLoadingAnamnese] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
         getPacientes();
-        getAnamnese();
     }, []);
 
     useEffect(() => {
@@ -34,17 +28,6 @@ const Home = (props) => {
             setSuggestionsPaciente([]);
         }
     }, [searchTextPaciente]);
-
-    useEffect(() => {
-        if (searchTextAnamnese) {
-            const timer = setTimeout(() => {
-                searchAnamnese(searchTextAnamnese);
-            }, 300);
-            return () => clearTimeout(timer);
-        } else {
-            setSuggestionsAnamnese([]);
-        }
-    }, [searchTextAnamnese]);
 
     const getPacientes = () => {
         setLoadingPaciente(true);
@@ -60,20 +43,6 @@ const Home = (props) => {
             });
     };
 
-    const getAnamnese = () => {
-        setLoadingAnamnese(true);
-        axios.get('http://localhost:8000/api/anamneses?limit=4')
-            .then(response => {
-                setAnamnese(response.data);
-                setLoadingAnamnese(false);
-            })
-            .catch(error => {
-                console.error("Error fetching anamnese:", error);
-                setLoadingAnamnese(false);
-                setError("Erro ao carregar modelos de anamnese.");
-            });
-    };
-
     const searchPacientes = (query) => {
         axios.get(`http://localhost:8000/api/pacientes?search=${query}`)
             .then(response => {
@@ -85,23 +54,8 @@ const Home = (props) => {
             });
     };
 
-    const searchAnamnese = (query) => {
-        axios.get(`http://localhost:8000/api/anamneses?search=${query}`)
-            .then(response => {
-                setSuggestionsAnamnese(response.data);
-            })
-            .catch(error => {
-                console.error("Error searching anamnese:", error);
-                setError("Erro ao buscar modelos de anamnese.");
-            });
-    };
-
     const handleSearchChangePaciente = (event) => {
         setSearchTextPaciente(event.target.value);
-    };
-
-    const handleSearchChangeAnamnese = (event) => {
-        setSearchTextAnamnese(event.target.value);
     };
 
     const handleSuggestionClickPaciente = (suggestion, event) => {
@@ -111,28 +65,16 @@ const Home = (props) => {
         setSuggestionsPaciente([]);
     };
 
-    const handleSuggestionClickAnamnese = (suggestion, event) => {
-        event.preventDefault();
-        navigate(`/anamnese/${suggestion.id}`);
-        setSearchTextAnamnese(suggestion.nome);
-        setSuggestionsAnamnese([]);
+    const handleCardClick = (id) => {
+        navigate(`/paciente/${id}`);
     };
 
-    // Format date in cards
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
-    };
-
-    const handleCardClick = (id) => {
-        navigate(`/paciente/${id}`);
-    };
-
-    const handleCardClickAnamnese = (id) => {
-        navigate(`/anamnese/${id}`);
     };
 
     const menuItems = [
@@ -148,8 +90,7 @@ const Home = (props) => {
             <Sidebar />
             <div className="content-container">
                 <Topbar menuItems={menuItems} />
-                <div className="content-home">
-                    {/* Pacientes */}
+                <div className="content-pacientes">
                     <div className="section">
                         <h2 className="section-title">Pacientes Cadastrados</h2>
                         <div className="section-content">
@@ -178,7 +119,7 @@ const Home = (props) => {
                                         </div>
                                     )}
                                 </div>
-                                <button className="buttonHome" onClick={() => navigate('/pacientes/novo')}>
+                                <button className="buttonPacientes" onClick={() => navigate('/pacientes/novo')}>
                                     Novo Paciente
                                 </button>
                             </div>
@@ -207,72 +148,10 @@ const Home = (props) => {
                             )}
                         </div>
                     </div>
-                    {/* Anamnese */}
-                    <div className="section">
-                        <h2 className="section-title">Modelos Anamneses</h2>
-                        <div className="section-content">
-                            <div className="section-header">
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Busque pelo nome da anamnese"
-                                        className="search-input"
-                                        value={searchTextAnamnese}
-                                        onChange={handleSearchChangeAnamnese}
-                                        aria-label="Campo de busca de anamneses"
-                                    />
-                                    <FaSearch className="search-icon" />
-                                    {suggestionsAnamnese.length > 0 && (
-                                        <div className="suggestions-container">
-                                            {suggestionsAnamnese.map(suggestion => (
-                                                <div
-                                                    key={suggestion.id}
-                                                    className="suggestion-item"
-                                                    onClick={(event) => handleSuggestionClickAnamnese(suggestion, event)}
-                                                >
-                                                    {suggestion.nome}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                <button className="buttonHome" onClick={() => navigate('/anamneses/novo')}>
-                                    Novo Modelo
-                                </button>
-                            </div>
-                            {loadingAnamnese ? (
-                                <p className="card-p">Carregando...</p>
-                            ) : (
-                                <div className="card-list">
-                                    {anamnese.length > 0 ? anamnese.map((anamneseItem) => (
-                                        <div 
-                                            key={anamneseItem.id} 
-                                            className="card" 
-                                            onClick={() => handleCardClickAnamnese(anamneseItem.id)}
-                                        >
-                                            <div className="card-icon">
-                                                <FaStethoscope size={24} color="#4E6033" />
-                                            </div>
-                                            <div className="card-content">
-                                                <p>{anamneseItem.nome}</p>
-                                                <span>{formatDate(anamneseItem.data_cadastro)}</span>
-                                            </div>
-                                        </div>
-                                    )) : (
-                                        <p className="card-p">Nenhum modelo encontrado</p>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-const mapStateToProps = (state) => ({
-    user: state.user,
-});
-
-export default connect(mapStateToProps)(Home);
+export default Pacientes;
