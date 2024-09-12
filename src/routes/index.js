@@ -4,9 +4,10 @@ import Home from "../pages/Home";
 import SignIn from "../pages/Signin";
 import SignUp from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
-import Anamneses from "../pages/Anamneses"; // Importe a nova página
+import Anamneses from "../pages/Anamneses";
 import { connect } from "react-redux";
 import Pacientes from "../pages/Pacientes";
+import Refeicoes from "../pages/Refeicoes"
 
 const RoutesApp = (props) => {
     return (
@@ -19,6 +20,7 @@ const RoutesApp = (props) => {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/anamneses" element={props.isLoggedIn ? <Anamneses /> : <Navigate to={'/'} />} />
                     <Route path="/pacientes" element={props.isLoggedIn ? <Pacientes /> : <Navigate to={'/'} />} />
+                    <Route path="/refeicoes" element={props.isLoggedIn ? <Refeicoes /> : <Navigate to={'/'} />} />
                     <Route path="*" element={<Navigate to={'/home'} />} />
                 </Routes>
             </Fragment>

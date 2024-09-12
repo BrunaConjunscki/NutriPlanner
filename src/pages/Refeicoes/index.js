@@ -3,74 +3,70 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
-import { FaUser, FaSearch } from "react-icons/fa";
-import "./pacientes.css";
+import { FaUtensils, FaSearch } from "react-icons/fa";
+import "./refeicoes.css";
 
-const Pacientes = () => {
+const Refeicoes = () => {
     const navigate = useNavigate();
-    const [pacientes, setPacientes] = useState([]);
-    const [searchTextPaciente, setSearchTextPaciente] = useState("");
-    const [suggestionsPaciente, setSuggestionsPaciente] = useState([]);
-    const [loadingPaciente, setLoadingPaciente] = useState(false);
+    const [refeicoes, setRefeicoes] = useState([]);
+    const [searchTextRefeicao, setSearchTextRefeicao] = useState("");
+    const [suggestionsRefeicao, setSuggestionsRefeicao] = useState([]);
+    const [loadingRefeicao, setLoadingRefeicao] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        getPacientes();
+        getRefeicoes();
     }, []);
 
     useEffect(() => {
-        if (searchTextPaciente) {
+        if (searchTextRefeicao) {
             const timer = setTimeout(() => {
-                searchPacientes(searchTextPaciente);
+                searchRefeicoes(searchTextRefeicao);
             }, 300);
             return () => clearTimeout(timer);
         } else {
-            setSuggestionsPaciente([]);
+            setSuggestionsRefeicao([]);
         }
-    }, [searchTextPaciente]);
+    }, [searchTextRefeicao]);
 
-    const getPacientes = () => {
-        setLoadingPaciente(true);
-        axios.get('http://localhost:8000/api/pacientes?limit=5')
+    const getRefeicoes = () => {
+        setLoadingRefeicao(true);
+        axios.get('http://localhost:8000/api/refeicoes?limit=5')
             .then(response => {
-                const sortedPacientes = response.data.sort((a, b) => 
-                    a.nome.localeCompare(b.nome)
-                );
-                setPacientes(sortedPacientes);
-                setLoadingPaciente(false);
+                setRefeicoes(response.data);
+                setLoadingRefeicao(false);
             })
             .catch(error => {
-                console.error("Error fetching pacientes:", error);
-                setLoadingPaciente(false);
-                setError("Erro ao carregar pacientes.");
-            });
-    };
-    
-
-    const searchPacientes = (query) => {
-        axios.get(`http://localhost:8000/api/pacientes?search=${query}`)
-            .then(response => {
-                setSuggestionsPaciente(response.data);
-            })
-            .catch(error => {
-                console.error("Error searching pacientes:", error);
-                setError("Erro ao buscar pacientes.");
+                console.error("Error fetching refeições:", error);
+                setLoadingRefeicao(false);
+                setError("Erro ao carregar refeições.");
             });
     };
 
-    const handleSearchChangePaciente = (event) => {
-        setSearchTextPaciente(event.target.value);
+    const searchRefeicoes = (query) => {
+        axios.get(`http://localhost:8000/api/refeicoes?search=${query}`)
+            .then(response => {
+                setSuggestionsRefeicao(response.data);
+            })
+            .catch(error => {
+                console.error("Error searching refeições:", error);
+                setError("Erro ao buscar refeições.");
+            });
     };
 
-    const handleSuggestionClickPaciente = (suggestion, event) => {
+    const handleSearchChangeRefeicao = (event) => {
+        setSearchTextRefeicao(event.target.value);
+    };
+
+    const handleSuggestionClickRefeicao = (suggestion, event) => {
         event.preventDefault();
-        navigate(`/paciente/${suggestion.id}`);
-        setSearchTextPaciente(suggestion.nome);
-        setSuggestionsPaciente([]);
+        navigate(`/refeicao/${suggestion.id}`);
+        setSearchTextRefeicao(suggestion.nome);
+        setSuggestionsRefeicao([]);
     };
 
     const handleCardClick = (id) => {
-        navigate(`/paciente/${id}`);
+        navigate(`/refeicao/${id}`);
     };
 
     const formatDate = (dateString) => {
@@ -94,28 +90,28 @@ const Pacientes = () => {
             <Sidebar />
             <div className="content-container">
                 <Topbar menuItems={menuItems} />
-                <div className="content-pacientes">
+                <div className="content-refeicoes">
                     <div className="section">
-                        <h2 className="section-title">Pacientes Cadastrados</h2>
+                        <h2 className="section-title">Refeições Cadastradas</h2>
                         <div className="section-content">
                             <div className="section-header">
                                 <div className="search-container">
                                     <input
                                         type="text"
-                                        placeholder="Busque pelo nome do paciente"
+                                        placeholder="Busque pelo nome da refeição"
                                         className="search-input"
-                                        value={searchTextPaciente}
-                                        onChange={handleSearchChangePaciente}
-                                        aria-label="Campo de busca de pacientes"
+                                        value={searchTextRefeicao}
+                                        onChange={handleSearchChangeRefeicao}
+                                        aria-label="Campo de busca de refeições"
                                     />
                                     <FaSearch className="search-icon" />
-                                    {suggestionsPaciente.length > 0 && (
+                                    {suggestionsRefeicao.length > 0 && (
                                         <div className="suggestions-container">
-                                            {suggestionsPaciente.map(suggestion => (
+                                            {suggestionsRefeicao.map(suggestion => (
                                                 <div
                                                     key={suggestion.id}
                                                     className="suggestion-item"
-                                                    onClick={(event) => handleSuggestionClickPaciente(suggestion, event)}
+                                                    onClick={(event) => handleSuggestionClickRefeicao(suggestion, event)}
                                                 >
                                                     {suggestion.nome}
                                                 </div>
@@ -123,30 +119,30 @@ const Pacientes = () => {
                                         </div>
                                     )}
                                 </div>
-                                <button className="buttonPacientes" onClick={() => navigate('/pacientes/novo')}>
-                                    Novo Paciente
+                                <button className="buttonRefeicoes" onClick={() => navigate('/refeicoes/novo')}>
+                                    Nova Refeição
                                 </button>
                             </div>
-                            {loadingPaciente ? (
+                            {loadingRefeicao ? (
                                 <p className="card-p">Carregando...</p>
                             ) : (
                                 <div className="card-list">
-                                    {pacientes.length > 0 ? pacientes.map((paciente) => (
+                                    {refeicoes.length > 0 ? refeicoes.map((refeicao) => (
                                         <div 
-                                            key={paciente.id} 
+                                            key={refeicao.id} 
                                             className="card" 
-                                            onClick={() => handleCardClick(paciente.id)}
+                                            onClick={() => handleCardClick(refeicao.id)}
                                         >
                                             <div className="card-icon">
-                                                <FaUser size={24} color="#4E6033" />
+                                                <FaUtensils size={24} color="#4E6033" />
                                             </div>
                                             <div className="card-content">
-                                                <p>{paciente.nome}</p>
-                                                <span>{formatDate(paciente.data_cadastro)}</span>
+                                                <p>{refeicao.nome}</p>
+                                                <span>{formatDate(refeicao.data_cadastro)}</span>
                                             </div>
                                         </div>
                                     )) : (
-                                        <p className="card-p">Nenhum paciente encontrado</p>
+                                        <p className="card-p">Nenhuma refeição encontrada</p>
                                     )}
                                 </div>
                             )}
@@ -158,4 +154,4 @@ const Pacientes = () => {
     );
 };
 
-export default Pacientes;
+export default Refeicoes;
