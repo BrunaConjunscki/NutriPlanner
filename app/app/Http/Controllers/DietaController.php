@@ -23,7 +23,7 @@ class DietaController extends Controller
 
         $dietas = $paciente->dietas;
 
-        return response()->json([$dietas]);
+        return response()->json($dietas);
     }
 
     public function store(StoreDietaRequest $request, Paciente $paciente) {
@@ -84,6 +84,6 @@ class DietaController extends Controller
 
         $dieta->load('refeicoes');
 
-        return response()->json([$dieta]);
+        return response()->json($dieta);
     }
 }

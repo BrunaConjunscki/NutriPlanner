@@ -31,7 +31,7 @@ const Refeicoes = () => {
 
     const getRefeicoes = () => {
         setLoadingRefeicao(true);
-        axios.get('http://localhost:8000/api/refeicoes?limit=5')
+        axios.get('http://localhost:8000/api/dieta_template?limit=5')
             .then(response => {
                 setRefeicoes(response.data);
                 setLoadingRefeicao(false);

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DietaTemplate;
-use App\Models\ItemOpcaoTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DietaTemplateController extends Controller
 {
@@ -19,6 +19,7 @@ class DietaTemplateController extends Controller
 
     private function atualizaDados(array $validated_request, DietaTemplate $dieta) : DietaTemplate {
         $dieta->nome = $validated_request['nome'];
+        $dieta->nutricionista_id = Auth::user()->nutricionista->id;
         $dieta->save();
 
         foreach($validated_request['refeicoes'] as $refeicao) {
@@ -34,6 +35,23 @@ class DietaTemplateController extends Controller
         }
 
         return $dieta;
+    }
+
+    public function index() {
+        $dietas = DietaTemplate::where('nutricionista_id', Auth::user()->nutricionista->id)->get();
+
+        return response()->json($dietas);
+    }
+
+    public function show(DietaTemplate $dieta_template) {
+        if(Auth::user()->nutricionista->id !== $dieta_template->nutricionista_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Você não possui permissão para acessar esse template.'
+            ], 403);
+        }
+
+        return response()->json($dieta_template);
     }
 
 }

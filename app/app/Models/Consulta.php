@@ -22,4 +22,8 @@ class Consulta extends Model
     public function nutricionista() {
         return $this->belongsTo(Nutricionista::class);
     }
+
+    public function antropometria() {
+        return $this->belongsToMany(ItemAntropometrico::class, 'antropometrias', 'consulta_id', 'item_antropometrico_id', 'id')->withPivot('valor');
+    }
 }
