@@ -100,7 +100,7 @@
 
 .buttonHome {
     margin-bottom: 10px;
-    width: 26%;
+    width: 30%;
     padding: 10px 15px;
     font-size: 14px;
     font-weight: 400;
@@ -176,6 +176,53 @@
     margin-top: 10px;
     margin-bottom: 10px;
     color: #3C3D37;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-button {
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #799351;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    max-width: 150px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 5px;
+}
+
+.modal-button:hover {
+    background-color: #A1DD70;
+}
+
+
+.buttonSave, .buttonCancel {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.buttonSave {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.buttonCancel {
+    background-color: #f44336;
+    color: white;
 }
 
 /* Responsividade */

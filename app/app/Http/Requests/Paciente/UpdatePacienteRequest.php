@@ -26,11 +26,12 @@ class UpdatePacienteRequest extends FormRequest
         return [
             'nome' => ['required', 'string'],
             'sexo' => ['required', 'string', 'size:1', 'regex:/^[F|M]+$/'],
+            'tipo_paciente' => ['requied', 'string'],
             'data_nascimento' => ['required', 'date', 'before_or_equal:today'],
             'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18), 'string'],
-            'anamnese' => ['required', 'string'],
+            'anamnese' => ['string'],
             'objetivo' => ['required', 'string'],
-            'email' => ['required', Rule::unique('pacientes')->ignore($this->paciente->id),'email:rfc,dns'],
+            'email' => [Rule::unique('pacientes')->ignore($this->paciente->id),'email:rfc,dns'],
             'telefone' => ['nullable', 'string', 'unique:pacientes'],
         ];
     }

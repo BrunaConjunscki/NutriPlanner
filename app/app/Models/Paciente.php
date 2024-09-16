@@ -15,6 +15,7 @@ class Paciente extends Model
         'sexo',
         'data_nascimento',
         'anamnese',
+        'tipo_paciente',
         'objetivo',
         'email',
         'telefone',

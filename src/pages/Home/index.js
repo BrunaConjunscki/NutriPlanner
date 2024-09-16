@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { FaUser, FaStethoscope, FaSearch } from "react-icons/fa";
+import Input from "../../components/Input";
+import NovoPacienteModal from "../../components/NovoPacienteModal";
 import "./home.css";
 
 const Home = (props) => {
@@ -18,6 +20,7 @@ const Home = (props) => {
     const [loadingPaciente, setLoadingPaciente] = useState(false);
     const [loadingAnamnese, setLoadingAnamnese] = useState(false);
     const [error, setError] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         getPacientes();
@@ -118,7 +121,6 @@ const Home = (props) => {
         setSuggestionsAnamnese([]);
     };
 
-    // Format date in cards
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');
@@ -155,13 +157,11 @@ const Home = (props) => {
                         <div className="section-content">
                             <div className="section-header">
                                 <div className="search-container">
-                                    <input
+                                    <Input
                                         type="text"
                                         placeholder="Busque pelo nome do paciente"
-                                        className="search-input"
                                         value={searchTextPaciente}
                                         onChange={handleSearchChangePaciente}
-                                        aria-label="Campo de busca de pacientes"
                                     />
                                     <FaSearch className="search-icon" />
                                     {suggestionsPaciente.length > 0 && (
@@ -178,7 +178,7 @@ const Home = (props) => {
                                         </div>
                                     )}
                                 </div>
-                                <button className="buttonHome" onClick={() => navigate('/pacientes/novo')}>
+                                <button className="buttonHome" onClick={() => setIsModalOpen(true)}>
                                     Novo Paciente
                                 </button>
                             </div>
@@ -187,9 +187,9 @@ const Home = (props) => {
                             ) : (
                                 <div className="card-list">
                                     {pacientes.length > 0 ? pacientes.map((paciente) => (
-                                        <div 
-                                            key={paciente.id} 
-                                            className="card" 
+                                        <div
+                                            key={paciente.id}
+                                            className="card"
                                             onClick={() => handleCardClick(paciente.id)}
                                         >
                                             <div className="card-icon">
@@ -213,13 +213,11 @@ const Home = (props) => {
                         <div className="section-content">
                             <div className="section-header">
                                 <div className="search-container">
-                                    <input
+                                    <Input
                                         type="text"
                                         placeholder="Busque pelo nome da anamnese"
-                                        className="search-input"
                                         value={searchTextAnamnese}
                                         onChange={handleSearchChangeAnamnese}
-                                        aria-label="Campo de busca de anamneses"
                                     />
                                     <FaSearch className="search-icon" />
                                     {suggestionsAnamnese.length > 0 && (
@@ -236,30 +234,30 @@ const Home = (props) => {
                                         </div>
                                     )}
                                 </div>
-                                <button className="buttonHome" onClick={() => navigate('/anamneses/novo')}>
-                                    Novo Modelo
+                                <button className="buttonHome" onClick={() => navigate('/anamnese/novo')}>
+                                    Nova Anamnese
                                 </button>
                             </div>
                             {loadingAnamnese ? (
                                 <p className="card-p">Carregando...</p>
                             ) : (
                                 <div className="card-list">
-                                    {anamnese.length > 0 ? anamnese.map((anamneseItem) => (
-                                        <div 
-                                            key={anamneseItem.id} 
-                                            className="card" 
-                                            onClick={() => handleCardClickAnamnese(anamneseItem.id)}
+                                    {anamnese.length > 0 ? anamnese.map((modelo) => (
+                                        <div
+                                            key={modelo.id}
+                                            className="card"
+                                            onClick={() => handleCardClickAnamnese(modelo.id)}
                                         >
                                             <div className="card-icon">
                                                 <FaStethoscope size={24} color="#4E6033" />
                                             </div>
                                             <div className="card-content">
-                                                <p>{anamneseItem.nome}</p>
-                                                <span>{formatDate(anamneseItem.data_cadastro)}</span>
+                                                <p>{modelo.nome}</p>
+                                                <span>{formatDate(modelo.data_cadastro)}</span>
                                             </div>
                                         </div>
                                     )) : (
-                                        <p className="card-p">Nenhum modelo encontrado</p>
+                                        <p className="card-p">Nenhum modelo de anamnese encontrado</p>
                                     )}
                                 </div>
                             )}
@@ -267,12 +265,23 @@ const Home = (props) => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal Novo Paciente */}
+            {isModalOpen && (
+                <NovoPacienteModal
+                    isOpen={isModalOpen}
+                    onRequestClose={() => {
+                        setIsModalOpen(false);
+                        getPacientes(); // Atualize a lista de pacientes
+                    }}
+                />
+            )}
         </div>
     );
 };
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user
 });
 
 export default connect(mapStateToProps)(Home);

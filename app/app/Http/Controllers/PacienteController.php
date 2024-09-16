@@ -33,6 +33,10 @@ class PacienteController extends Controller
         $dados = $request->validated();
         $dados['nutricionista_id'] = $request->user()->nutricionista->id;
 
+        $dados['telefone'] = str_replace('(', '', $dados['telefone']);
+        $dados['telefone'] = str_replace(') ', '', $dados['telefone']);
+        $dados['telefone'] = str_replace('-', '', $dados['telefone']);
+
         $paciente = Paciente::create($dados);
 
         return response()->json([

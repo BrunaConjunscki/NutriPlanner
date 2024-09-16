@@ -27,10 +27,11 @@ class StorePacienteRequest extends FormRequest
             'nome' => ['required', 'string'],
             'sexo' => ['required', 'string', 'size:1', 'regex:/^[F|M]+$/'],
             'data_nascimento' => ['required', 'date', 'before_or_equal:today'],
-            'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18), 'string'],
-            'anamnese' => ['required', 'string'],
+            'tipo_paciente' => ['required', 'string'],
+            'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18)],
+            'anamnese' => ['string'],
             'objetivo' => ['required', 'string'],
-            'email' => ['required', 'unique:pacientes' ,'email:rfc,dns'],
+            'email' => ['nullable', 'unique:pacientes', 'email:rfc,dns'],
             'telefone' => ['nullable', 'string', 'unique:pacientes'],
         ];
     }
