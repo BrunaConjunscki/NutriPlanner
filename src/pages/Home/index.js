@@ -192,7 +192,7 @@ const Home = (props) => {
                                             className="card"
                                             onClick={() => handleCardClick(paciente.id)}
                                         >
-                                            <div className="card-icon">
+                                            <div className="card-icon-home">
                                                 <FaUser size={24} color="#4E6033" />
                                             </div>
                                             <div className="card-content">

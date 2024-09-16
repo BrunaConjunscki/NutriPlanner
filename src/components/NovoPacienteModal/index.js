@@ -131,7 +131,7 @@ const handleSubmit = async () => {
                             </InputMask> */}
                             {/* {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>} */}
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label>Menor de Idade <span className="required">*</span></label>
                             <select
                                 value={isMenorIdade ? "sim" : "não"}
@@ -141,7 +141,7 @@ const handleSubmit = async () => {
                                 <option value="não">Não</option>
                                 <option value="sim">Sim</option>
                             </select>
-                        </div>
+                        </div> */}
                         {isMenorIdade && (
                             <div className="form-group">
                                 <label>Nome do Responsável <span className="required">*</span></label>
