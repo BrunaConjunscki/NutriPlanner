@@ -28,6 +28,7 @@ class UpdatePacienteRequest extends FormRequest
             'sexo' => ['required', 'string', 'size:1', 'regex:/^[F|M]+$/'],
             'tipo_paciente' => ['requied', 'string'],
             'data_nascimento' => ['required', 'date', 'before_or_equal:today'],
+            'tipo_paciente' => ['required', 'string'],
             'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18), 'string'],
             'anamnese' => ['string'],
             'objetivo' => ['required', 'string'],

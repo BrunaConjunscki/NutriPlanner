@@ -50,6 +50,13 @@ class PacienteController extends Controller
     }
 
     public function update(UpdatePacienteRequest $request, Paciente $paciente) {
+        if($request->user()->nutricionista->id !== $paciente->nutricionista_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Você não possui permissão para editar esse paciente',
+            ], 403);
+        }
+
         $dados = $request->validated();
         $paciente->update($dados);
 

@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DietaTemplate extends Model
+class AnamneseTemplate extends Model
 {
     use HasFactory;
-
-    protected $table = 'dieta_templates';
-
     public $timestamps = false;
+    protected $fillable = [
+        'nome',
+        'conteudo',
+        'nutricionista_id',
+    ];
 }

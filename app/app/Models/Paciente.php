@@ -17,6 +17,7 @@ class Paciente extends Model
         'anamnese',
         'tipo_paciente',
         'objetivo',
+        'tipo_paciente',
         'email',
         'telefone',
         'nutricionista_id',

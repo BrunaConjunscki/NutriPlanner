@@ -26,7 +26,7 @@ class AlimentoController extends Controller
 
         $alimentos = $query->get();
 
-        return response()->json([$alimentos]);
+        return response()->json($alimentos);
     }
 
     public function store(StoreAlimentoRequest $request) {

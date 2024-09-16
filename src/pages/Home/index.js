@@ -78,7 +78,7 @@ const Home = (props) => {
     };
 
     const searchPacientes = (query) => {
-        axios.get(`http://localhost:8000/api/pacientes?search=${query}`)
+        axios.get(`http://localhost:8000/api/pacientes?nome=${query}`)
             .then(response => {
                 setSuggestionsPaciente(response.data);
             })

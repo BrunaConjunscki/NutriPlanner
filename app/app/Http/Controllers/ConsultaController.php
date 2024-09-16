@@ -35,6 +35,6 @@ class ConsultaController extends Controller
     public function index(Paciente $paciente) {
         $consultas = Consulta::where('paciente_id', $paciente->id)
             ->get();
-        return response()->json([$consultas]);
+        return response()->json($consultas);
     }
 }

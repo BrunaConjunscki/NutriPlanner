@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\AnamneseTemplateController;
+use App\Http\Controllers\AntropometriaController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\DietaController;
 use App\Http\Controllers\DietaTemplateController;
@@ -34,6 +36,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', 'store');
             Route::get('/{consulta}', 'show');
             Route::get('/', 'index');
+
+            Route::prefix('/{consulta}/antropometrias')->controller(AntropometriaController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/', 'store');
+            });
         });
 
         Route::prefix('/{paciente}/dietas')->controller(DietaController::class)->group(function () {
@@ -52,37 +59,17 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('/dieta_template')->controller(DietaTemplateController::class)->group(function () {
+        Route::get('/', 'index');
         Route::post('/', 'store');
+        Route::get('/{dieta_template}', 'show');
     });
-});
 
-Route::get('/addPacientes', function() {
-//    $nutricionista = \App\Models\Nutricionista::create([
-//        'nome' => 'Nutricionista',
-//        'login' => 'nutricionista',
-//        'email' => 'nutrcionista@gmail.com',
-//        'senha' => 'nutricionista',
-//    ]);
-
-    $pacientes = [];
-    for($i = 0; $i < 20; $i++) {
-        $pacientes[] = \App\Models\Paciente::create([
-           'nome' => Str::random(10),
-           'sexo' => 'F',
-           'data_nascimento' => '2002-03-29',
-           'anamnese' => Str::random(20),
-           'objetivo' => 'Massa Muscular',
-           'email' => Str::random(10).'@gmail.com',
-           'telefone' => '9999999' . $i,
-           'nutricionista_id' => 3,
-       ]);
-    }
-
-    return response()->json([
-//        'nutricionista' => $nutricionista,
-        'pacientes' => $pacientes,
-    ]);
-
+    Route::prefix('/anamnese_template')->controller(AnamneseTemplateController::class)->group(function () {
+        Route::post('/', 'store');
+        Route::get('/', 'index');
+        Route::get('/{anamnese_template}', 'show');
+        Route::put('/{anamnese_template}', 'update');
+    });
 
 });
 
