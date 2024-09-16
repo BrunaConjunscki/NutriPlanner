@@ -75,7 +75,7 @@ const handleSubmit = async () => {
                 email,
                 telefone,
                 objetivo,
-            });
+            }, {headers: {Accept: 'application/json'}});
 
             
             console.log(response.data);

@@ -33,9 +33,7 @@ class PacienteController extends Controller
         $dados = $request->validated();
         $dados['nutricionista_id'] = $request->user()->nutricionista->id;
 
-        $dados['telefone'] = str_replace('(', '', $dados['telefone']);
-        $dados['telefone'] = str_replace(') ', '', $dados['telefone']);
-        $dados['telefone'] = str_replace('-', '', $dados['telefone']);
+        $this->unmaskVariables($dados);
 
         $paciente = Paciente::create($dados);
 
@@ -45,6 +43,11 @@ class PacienteController extends Controller
         ], 200);
     }
 
+    private function unmaskVariables(&$dados) {
+        $dados['telefone'] = str_replace('(', '', $dados['telefone']);
+        $dados['telefone'] = str_replace(') ', '', $dados['telefone']);
+        $dados['telefone'] = str_replace('-', '', $dados['telefone']);
+    }
     public function show(Paciente $paciente) {
         return response()->json($paciente, 200);
     }
