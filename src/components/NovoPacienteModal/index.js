@@ -47,20 +47,30 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
 
     const validateForm = () => {
         const newErrors = {};
-        const regexData = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
         const regexTelefone = /^\(\d{2}\) \d{5}-\d{4}$/;
-
+    
         if (!nome) newErrors.nome = 'Nome completo é obrigatório.';
-        // if (!data_nascimento || !regexData.test(data_nascimento)) newErrors.data_nascimento = 'Data de nascimento válida é obrigatória.';
         if (isMenorIdade && !nome_responsavel) newErrors.nome_responsavel = 'Nome do responsável é obrigatório.';
         if (!tipo_paciente) newErrors.tipo_paciente = 'Tipo de paciente é obrigatório.';
         if (!sexo) newErrors.sexo = 'Gênero biológico é obrigatório.';
         if (!telefone || !regexTelefone.test(telefone)) newErrors.telefone = 'Telefone com DDD no formato (XX) XXXXX-XXXX é obrigatório.';
-        if (!objetivo) newErrors.objetivo = 'objetivo são obrigatórios.';
-
+        if (!objetivo) newErrors.objetivo = 'Os objetivos são obrigatórios.';
+    
+        // Validação de data de nascimento
+        const hoje = new Date();
+        const nascimento = new Date(data_nascimento.split("/").reverse().join("-"));
+        if (!data_nascimento) {
+            newErrors.data_nascimento = 'Data de nascimento é obrigatória.';
+        } else if (nascimento > hoje) {
+            newErrors.data_nascimento = 'Data de nascimento não pode ser no futuro.';
+        } else if (nascimento > new Date(hoje.setFullYear(hoje.getFullYear() - 0))) {
+            newErrors.data_nascimento = 'A data de nascimento parece ser muito recente.';
+        }
+    
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+    
 
 
 const handleSubmit = async () => {
@@ -87,6 +97,17 @@ const handleSubmit = async () => {
     }
 };
 
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+                onRequestClose(); // fecha o modal
+            }, 3000); // 3000 ms = 3 segundos
+
+            return () => clearTimeout(timer); // Limpa o timer se o modal for fechado antes
+        }
+    }, [showSuccess, onRequestClose]);
+
     return (
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content" overlayClassName="modal-overlay">
@@ -108,40 +129,16 @@ const handleSubmit = async () => {
                         </div>
                         <div className="form-group">
                             <label>Data de Nascimento <span className="required">*</span></label>
-                            
-                            <input type="date"
+                            <input 
+                                type="date"
                                 onChange={(e) => setdata_nascimento(e.target.value)}
                                 value={data_nascimento}
-                                />
-
-                            {/* <InputMask
-                                mask="99/99/9999"
-                                value={data_nascimento}
-                                onChange={(e) => setdata_nascimento(e.target.value)}
-                                maskChar={null}
-                            >
-                                {(inputProps) => (
-                                    <input
-                                        {...inputProps}
-                                        type="text"
-                                        placeholder="dd/mm/aaaa"
-                                        className={`input ${errors.data_nascimento ? 'input-error' : ''}`}
-                                    />
-                                )}
-                            </InputMask> */}
-                            {/* {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>} */}
+                                className={`input ${errors.data_nascimento ? 'input-error' : ''}`}
+                            />
+                            {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>}
                         </div>
-                        {/* <div className="form-group">
-                            <label>Menor de Idade <span className="required">*</span></label>
-                            <select
-                                value={isMenorIdade ? "sim" : "não"}
-                                onChange={(e) => setIsMenorIdade(e.target.value === "sim")}
-                                className={`input ${errors.isMenorIdade ? 'input-error' : ''}`}
-                            >
-                                <option value="não">Não</option>
-                                <option value="sim">Sim</option>
-                            </select>
-                        </div> */}
+
+
                         {isMenorIdade && (
                             <div className="form-group">
                                 <label>Nome do Responsável <span className="required">*</span></label>
@@ -184,10 +181,10 @@ const handleSubmit = async () => {
                             {errors.sexo && <span className="error-message">{errors.sexo}</span>}
                         </div>
                         <div className="form-group">
-                            <label>Email (Opcional)</label>
+                            <label>Email</label>
                             <input
                                 type="email"
-                                placeholder="Email (opcional)"
+                                placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="input"
@@ -213,10 +210,10 @@ const handleSubmit = async () => {
                             {errors.telefone && <span className="error-message">{errors.telefone}</span>}
                         </div>
                         <div className="form-group full-width">
-                            <label>objetivo <span className="required">*</span></label>
+                            <label>Objetivos <span className="required">*</span></label>
                             <input
                                 type="text"
-                                placeholder="objetivo"
+                                placeholder="Objetivos"
                                 value={objetivo}
                                 onChange={(e) => setobjetivo(e.target.value)}
                                 className={`input ${errors.objetivo ? 'input-error' : ''}`}
@@ -232,19 +229,17 @@ const handleSubmit = async () => {
 
             {showSuccess && (
                 <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
-                    <div className="success-content">
-                        <h3>Paciente cadastrado com sucesso!</h3>
-                        <div className="success-buttons">
-                            <button className="success-button" onClick={handleSuccessClose}>OK</button>
-                        </div>
-                    </div>
-                </Modal>
+                <div className="success-content">
+                    <h3>Paciente cadastrado com sucesso!</h3>
+                </div>
+            </Modal>
+            
             )}
 
             {showConfirmation && (
                 <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
                     <div className="confirmation-content">
-                        <h3>Tem certeza de que deseja fechar?</h3>
+                        <h3>Deseja sair sem salvar?</h3>
                         <div className="confirmation-buttons">
                             <button className="confirmar-button" onClick={handleConfirmClose}>Sim</button>
                             <button className="cancelar-button" onClick={handleCancelClose}>Não</button>
