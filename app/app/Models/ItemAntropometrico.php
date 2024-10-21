@@ -9,7 +9,7 @@ class ItemAntropometrico extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'itens_atropometricos';
+    protected $table = 'itens_antropometricos';
     protected $fillable = [
         'descricao',
         'unidade_medida_completa',
