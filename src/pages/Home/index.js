@@ -15,8 +15,6 @@ const Home = (props) => {
     const [anamnese, setAnamnese] = useState([]);
     const [searchTextPaciente, setSearchTextPaciente] = useState("");
     const [searchTextAnamnese, setSearchTextAnamnese] = useState("");
-    const [suggestionsPaciente, setSuggestionsPaciente] = useState([]);
-    const [suggestionsAnamnese, setSuggestionsAnamnese] = useState([]);
     const [loadingPaciente, setLoadingPaciente] = useState(false);
     const [loadingAnamnese, setLoadingAnamnese] = useState(false);
     const [error, setError] = useState("");
@@ -28,25 +26,17 @@ const Home = (props) => {
     }, []);
 
     useEffect(() => {
-        if (searchTextPaciente) {
-            const timer = setTimeout(() => {
-                searchPacientes(searchTextPaciente);
-            }, 300);
-            return () => clearTimeout(timer);
-        } else {
-            setSuggestionsPaciente([]);
-        }
+        const timer = setTimeout(() => {
+            searchPacientes(searchTextPaciente);
+        }, 300); // ajuste o tempo conforme necessário
+        return () => clearTimeout(timer);
     }, [searchTextPaciente]);
 
     useEffect(() => {
-        if (searchTextAnamnese) {
-            const timer = setTimeout(() => {
-                searchAnamnese(searchTextAnamnese);
-            }, 300);
-            return () => clearTimeout(timer);
-        } else {
-            setSuggestionsAnamnese([]);
-        }
+        const timer = setTimeout(() => {
+            searchAnamnese(searchTextAnamnese);
+        }, 300); // ajuste o tempo conforme necessário
+        return () => clearTimeout(timer);
     }, [searchTextAnamnese]);
 
     const getPacientes = () => {
@@ -78,25 +68,39 @@ const Home = (props) => {
     };
 
     const searchPacientes = (query) => {
-        axios.get(`http://localhost:8000/api/pacientes?nome=${query}`)
-            .then(response => {
-                setSuggestionsPaciente(response.data);
-            })
-            .catch(error => {
-                console.error("Error searching pacientes:", error);
-                setError("Erro ao buscar pacientes.");
-            });
+        if (query) {
+            setLoadingPaciente(true);
+            axios.get(`http://localhost:8000/api/pacientes?nome=${query}`)
+                .then(response => {
+                    setPacientes(response.data); // Atualizar a lista de pacientes com o resultado da busca
+                    setLoadingPaciente(false);
+                })
+                .catch(error => {
+                    console.error("Error searching pacientes:", error);
+                    setError("Erro ao buscar pacientes.");
+                    setLoadingPaciente(false);
+                });
+        } else {
+            getPacientes(); // Se a busca estiver vazia, recarregar todos os pacientes
+        }
     };
 
     const searchAnamnese = (query) => {
-        axios.get(`http://localhost:8000/api/anamneses?search=${query}`)
-            .then(response => {
-                setSuggestionsAnamnese(response.data);
-            })
-            .catch(error => {
-                console.error("Error searching anamnese:", error);
-                setError("Erro ao buscar modelos de anamnese.");
-            });
+        if (query) {
+            setLoadingAnamnese(true);
+            axios.get(`http://localhost:8000/api/anamneses?search=${query}`)
+                .then(response => {
+                    setAnamnese(response.data); // Atualizar a lista de anamneses com o resultado da busca
+                    setLoadingAnamnese(false);
+                })
+                .catch(error => {
+                    console.error("Error searching anamnese:", error);
+                    setError("Erro ao buscar modelos de anamnese.");
+                    setLoadingAnamnese(false);
+                });
+        } else {
+            getAnamnese(); // Se a busca estiver vazia, recarregar todos os modelos de anamnese
+        }
     };
 
     const handleSearchChangePaciente = (event) => {
@@ -105,20 +109,6 @@ const Home = (props) => {
 
     const handleSearchChangeAnamnese = (event) => {
         setSearchTextAnamnese(event.target.value);
-    };
-
-    const handleSuggestionClickPaciente = (suggestion, event) => {
-        event.preventDefault();
-        navigate(`/paciente/${suggestion.id}`);
-        setSearchTextPaciente(suggestion.nome);
-        setSuggestionsPaciente([]);
-    };
-
-    const handleSuggestionClickAnamnese = (suggestion, event) => {
-        event.preventDefault();
-        navigate(`/anamnese/${suggestion.id}`);
-        setSearchTextAnamnese(suggestion.nome);
-        setSuggestionsAnamnese([]);
     };
 
     const formatDate = (dateString) => {
@@ -148,7 +138,7 @@ const Home = (props) => {
     return (
         <div className="main-container">
             <Sidebar />
-            <div className="content-container">
+            <div className="content-container-home">
                 <Topbar menuItems={menuItems} />
                 <div className="content-home">
                     {/* Pacientes */}
@@ -164,19 +154,6 @@ const Home = (props) => {
                                         onChange={handleSearchChangePaciente}
                                     />
                                     <FaSearch className="search-icon" />
-                                    {suggestionsPaciente.length > 0 && (
-                                        <div className="suggestions-container">
-                                            {suggestionsPaciente.map(suggestion => (
-                                                <div
-                                                    key={suggestion.id}
-                                                    className="suggestion-item"
-                                                    onClick={(event) => handleSuggestionClickPaciente(suggestion, event)}
-                                                >
-                                                    {suggestion.nome}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
                                 <button className="buttonHome" onClick={() => setIsModalOpen(true)}>
                                     Novo Paciente
@@ -220,19 +197,6 @@ const Home = (props) => {
                                         onChange={handleSearchChangeAnamnese}
                                     />
                                     <FaSearch className="search-icon" />
-                                    {suggestionsAnamnese.length > 0 && (
-                                        <div className="suggestions-container">
-                                            {suggestionsAnamnese.map(suggestion => (
-                                                <div
-                                                    key={suggestion.id}
-                                                    className="suggestion-item"
-                                                    onClick={(event) => handleSuggestionClickAnamnese(suggestion, event)}
-                                                >
-                                                    {suggestion.nome}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
                                 <button className="buttonHome" onClick={() => navigate('/anamnese/novo')}>
                                     Nova Anamnese

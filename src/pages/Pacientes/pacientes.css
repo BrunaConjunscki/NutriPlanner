@@ -1,62 +1,117 @@
-.main-container {
+/* Estilos gerais */
+.main-container-pacientes {
     display: flex;
-    height: 100vh;
-}
-
-.content-container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .content-pacientes {
     padding: 20px;
-        display: grid;
-        flex-direction: row;
-        align-items: flex-start; 
-        justify-content: center;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%; 
-        margin-top: 10px;
-
+    display: grid;
+    flex-direction: row;
+    align-items: flex-start; 
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 88%; 
+    background-color: #f0f2f5;
 }
 
-.section-title {
-    font-size: 24px;
-    color: #4E6033;
-    margin-bottom: 10px;
-}
-
-.section-content {
+.section-content-pacientes {
     background-color: #f9fbfc;
     padding: 10px;
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    width: 1000px;
     box-sizing: border-box;
 }
 
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
+.content-container-pacientes {
+    flex-grow: 1;
+    background-color: #fff;
 }
 
-.search-input {
+.section {
+    margin: 20px 0;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.section-header-pacientes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 20px; */
+}
+
+/* Estilos para a tabela/grid */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #799351;
+    color: white;
+    position: sticky; /* Adicionado para tornar o cabeçalho fixo */
+    top: 0; /* Para fixar na parte superior do container */
+    z-index: 10; /* Para garantir que o cabeçalho fique acima das linhas */
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #eef1e6;
+    cursor: pointer;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    /* padding-right: 10px; */
+}
+
+.table-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Estilos da busca */
+.search-container-pacientes {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 65%;
+}
+
+.search-input-pacientes {
     flex: 1; 
     padding: 10px 40px 10px 15px; 
     border: 1px solid #ccc;
     border-radius: 20px;
-    font-size: 14px;
-}
-
-.search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 70%;
+    font-size: 16px;
 }
 
 .search-icon {
@@ -70,15 +125,15 @@
 
 .suggestions-container {
     position: absolute;
-    top: 100%;
+    top: 40px;
     left: 0;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
 }
 
 .suggestion-item {
@@ -93,11 +148,12 @@
     background-color: #f5f5f5;
 }
 
+/* Estilos do botão */
 .buttonPacientes {
     margin-bottom: 10px;
     width: 26%;
     padding: 10px 15px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     background-color: #799351;
     border: none;
@@ -120,58 +176,8 @@
     transform: scale(0.98);
 }
 
-.card-list {
-    display: grid;
-    flex-wrap: wrap;
-    gap: 15px;
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-right: 10px;
-}
-
-.card-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-.card-list::-webkit-scrollbar-thumb {
-    background-color: #888; 
-    border-radius: 4px;
-}
-
-.card-list::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
-
-
-.card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.card:hover {
-    background-color: #eef1e6; 
-}
-
-
-.card {
-    width: 480px;
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    transition: transform 0.
+/* Mensagens de status */
+.card-p {
+    color: #333;
+    font-size: 16px;
 }

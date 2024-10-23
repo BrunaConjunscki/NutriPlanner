@@ -48,14 +48,14 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
     const validateForm = () => {
         const newErrors = {};
         const regexTelefone = /^\(\d{2}\) \d{5}-\d{4}$/;
-    
+
         if (!nome) newErrors.nome = 'Nome completo é obrigatório.';
         if (isMenorIdade && !nome_responsavel) newErrors.nome_responsavel = 'Nome do responsável é obrigatório.';
         if (!tipo_paciente) newErrors.tipo_paciente = 'Tipo de paciente é obrigatório.';
         if (!sexo) newErrors.sexo = 'Gênero biológico é obrigatório.';
         if (!telefone || !regexTelefone.test(telefone)) newErrors.telefone = 'Telefone com DDD no formato (XX) XXXXX-XXXX é obrigatório.';
         if (!objetivo) newErrors.objetivo = 'Os objetivos são obrigatórios.';
-    
+
         // Validação de data de nascimento
         const hoje = new Date();
         const nascimento = new Date(data_nascimento.split("/").reverse().join("-"));
@@ -66,43 +66,43 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
         } else if (nascimento > new Date(hoje.setFullYear(hoje.getFullYear() - 0))) {
             newErrors.data_nascimento = 'A data de nascimento parece ser muito recente.';
         }
-    
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-    
 
 
-const handleSubmit = async () => {
-    if (validateForm()) {
-        try {
-            const response = await axios.post('http://localhost:8000/api/pacientes', {
-                nome,
-                data_nascimento,
-                nome_responsavel,
-                tipo_paciente,
-                sexo,
-                email,
-                telefone,
-                objetivo,
-            }, {headers: {Accept: 'application/json'}});
 
-            
-            console.log(response.data);
-            setShowSuccess(true);
-        } catch (error) {
-            console.error("Error saving paciente:", error);
-            // setError("Erro ao salvar paciente."); 
+    const handleSubmit = async () => {
+        if (validateForm()) {
+            try {
+                const response = await axios.post('http://localhost:8000/api/pacientes', {
+                    nome,
+                    data_nascimento,
+                    nome_responsavel,
+                    tipo_paciente,
+                    sexo,
+                    email,
+                    telefone,
+                    objetivo,
+                }, { headers: { Accept: 'application/json' } });
+
+
+                console.log(response.data);
+                setShowSuccess(true);
+            } catch (error) {
+                console.error("Error saving paciente:", error);
+                // setError("Erro ao salvar paciente."); 
+            }
         }
-    }
-};
+    };
 
     useEffect(() => {
         if (showSuccess) {
             const timer = setTimeout(() => {
                 setShowSuccess(false);
                 onRequestClose(); // fecha o modal
-            }, 3000); // 3000 ms = 3 segundos
+            }, 1000); // 2000 ms = 2 segundos
 
             return () => clearTimeout(timer); // Limpa o timer se o modal for fechado antes
         }
@@ -115,6 +115,8 @@ const handleSubmit = async () => {
                 <h2 className="modal-title">Novo Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
+
+                        {/* NOME COMPLETO */}
                         <div className="form-group">
                             <label>Nome Completo <span className="required">*</span></label>
                             <input
@@ -127,18 +129,41 @@ const handleSubmit = async () => {
                             />
                             {errors.nome && <span className="error-message">{errors.nome}</span>}
                         </div>
+
+                        {/* DATA NASCIMENTO */}
                         <div className="form-group">
                             <label>Data de Nascimento <span className="required">*</span></label>
-                            <input 
+                            <input
                                 type="date"
-                                onChange={(e) => setdata_nascimento(e.target.value)}
+                                onChange={(e) => {
+                                    const selectedDate = e.target.value;
+                                    setdata_nascimento(selectedDate);
+
+                                    const hoje = new Date();
+                                    const nascimento = new Date(selectedDate);
+
+                                    // Validação instantânea: verifica se a data é no futuro
+                                    if (nascimento > hoje) {
+                                        setErrors(prevErrors => ({
+                                            ...prevErrors,
+                                            data_nascimento: 'Data de nascimento não pode ser no futuro.'
+                                        }));
+                                    } else {
+                                        // Remove o erro se a data for válida
+                                        setErrors(prevErrors => {
+                                            const { data_nascimento, ...rest } = prevErrors;
+                                            return rest;
+                                        });
+                                    }
+                                }}
                                 value={data_nascimento}
+                                max={new Date().toISOString().split("T")[0]} // Limita a data ao dia de hoje
                                 className={`input ${errors.data_nascimento ? 'input-error' : ''}`}
                             />
                             {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>}
                         </div>
 
-
+                        {/* NOME RESPONSAVEL */}
                         {isMenorIdade && (
                             <div className="form-group">
                                 <label>Nome do Responsável <span className="required">*</span></label>
@@ -152,11 +177,20 @@ const handleSubmit = async () => {
                                 {errors.nome_responsavel && <span className="error-message">{errors.nome_responsavel}</span>}
                             </div>
                         )}
+
+                        {/* TIPO PACIENTE */}
                         <div className="form-group">
                             <label>Tipo de Paciente <span className="required">*</span></label>
                             <select
                                 value={tipo_paciente}
-                                onChange={(e) => settipo_paciente(e.target.value)}
+                                onChange={(e) => {
+                                    const tipo = e.target.value;
+                                    settipo_paciente(tipo);
+                                    // Se o paciente for gestante, definir automaticamente o sexo como feminino
+                                    if (tipo === 'gestante') {
+                                        setsexo('F');
+                                    }
+                                }}
                                 className={`input ${errors.tipo_paciente ? 'input-error' : ''}`}
                             >
                                 <option value="">Selecione</option>
@@ -167,19 +201,24 @@ const handleSubmit = async () => {
                             </select>
                             {errors.tipo_paciente && <span className="error-message">{errors.tipo_paciente}</span>}
                         </div>
+
+                        {/* GENERO BIOLOGICO */}
                         <div className="form-group">
                             <label>Gênero Biológico <span className="required">*</span></label>
                             <select
                                 value={sexo}
                                 onChange={(e) => setsexo(e.target.value)}
                                 className={`input ${errors.sexo ? 'input-error' : ''}`}
+                                disabled={tipo_paciente === 'gestante'} // Desabilita o campo se for gestante
                             >
                                 <option value="">Selecione</option>
                                 <option value="F">Feminino</option>
-                                <option value="M">Masculino</option>
+                                <option value="M" disabled={tipo_paciente === 'gestante'}>Masculino</option>
                             </select>
                             {errors.sexo && <span className="error-message">{errors.sexo}</span>}
                         </div>
+
+                        {/* EMAIL */}
                         <div className="form-group">
                             <label>Email</label>
                             <input
@@ -190,6 +229,8 @@ const handleSubmit = async () => {
                                 className="input"
                             />
                         </div>
+
+                        {/* TELEFONE */}
                         <div className="form-group">
                             <label>Telefone com DDD <span className="required">*</span></label>
                             <InputMask
@@ -209,6 +250,8 @@ const handleSubmit = async () => {
                             </InputMask>
                             {errors.telefone && <span className="error-message">{errors.telefone}</span>}
                         </div>
+
+                        {/* OBJETIVOS */}
                         <div className="form-group full-width">
                             <label>Objetivos <span className="required">*</span></label>
                             <input
@@ -229,11 +272,11 @@ const handleSubmit = async () => {
 
             {showSuccess && (
                 <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
-                <div className="success-content">
-                    <h3>Paciente cadastrado com sucesso!</h3>
-                </div>
-            </Modal>
-            
+                    <div className="success-content">
+                        <h3>Paciente cadastrado com sucesso!</h3>
+                    </div>
+                </Modal>
+
             )}
 
             {showConfirmation && (
