@@ -1,0 +1,49 @@
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Para ocupar toda a altura da tela */
+}
+
+.profile-container {
+    display: flex;
+    flex: 1; /* O container ocupará o espaço restante */
+}
+
+.profile-content {
+    flex: 1; /* O conteúdo do perfil ocupará o espaço restante após a Sidebar */
+    padding: 20px;
+    overflow-y: auto; /* Adiciona rolagem caso o conteúdo ultrapasse a altura da tela */
+}
+
+h2 {
+    text-align: center;
+    color: #FC6000; /* Cor de destaque */
+}
+
+.profile-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.profile-icon {
+    margin-right: 10px;
+    color: #FC6000; /* Cor dos ícones */
+}
+
+span {
+    font-size: 1.1em;
+    color: #333;
+}
