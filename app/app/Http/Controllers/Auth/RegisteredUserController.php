@@ -23,8 +23,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'confirmed', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', /*'confirmed',*/ Rules\Password::defaults()],
+            'email' => ['required',  'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
         $nutricionista = Nutricionista::create([
             'nome' => $request->name,
             'user_id' => $user->id,
-//            'crn' => $request->crn,
+            'crn' => $request->crn,
         ]);
 
         event(new Registered($user));

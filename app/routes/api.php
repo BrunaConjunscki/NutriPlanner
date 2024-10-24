@@ -7,6 +7,7 @@ use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\DietaController;
 use App\Http\Controllers\DietaTemplateController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', 'index');
         Route::get('/{anamnese_template}', 'show');
         Route::put('/{anamnese_template}', 'update');
+    });
+
+    Route::prefix('/user')->controller(UserController::class)->group(function () {
+        Route::get('/', 'show');
     });
 
 });
