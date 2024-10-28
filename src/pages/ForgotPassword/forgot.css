@@ -1,85 +1,95 @@
-.container {
+.signin-container {
     display: flex;
-    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.signin-left,
+.signin-right {
+    flex: 1;
+    display: flex;
     justify-content: center;
-    flex-direction: column;
+    align-items: center;
+}
+
+.signin-left {
+    background-color: #f0f2f5;
+}
+
+.signin-image {
+    max-width: 68%;
     height: auto;
-    gap: 20px;
+    border-radius: 15px;
 }
 
-.label {
-    font-size: 18px;
-    font-weight: 600;
-    color: #676767;
+.signin-right {
+    background-color: white;
+    border-top-left-radius: 20px;   
+    border-bottom-left-radius: 20px;
 }
 
+.signin-content {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.signin-logo-image {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 60px;
+}
+
+.signin-title {
+    font-size: 20px;
+    color: #3C3D37;
+    margin-bottom: 20px;
+}
 
 .input-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    margin-bottom: 15px;
 }
 
-.email-label {
+.input-label {
+    display: block;
     font-size: 14px;
     color: #676767;
     margin-bottom: 5px;
-    display: block;
-    width: 100%;
-}
-
-.input {
-    width: 100%;
-}
-
-
-.content {
-    gap: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    box-shadow: 0 1px 2px #0003;
-    background-color: white;
-    /* max-width: 350px; */
-    padding: 20px;
-    border-radius: 5px;
+    text-align: left;
 }
 
 input {
-    padding: 10px;
     width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    outline: none;
     padding: 10px;
-    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 20px;
     font-size: 16px;
-    font-weight: 600;
-    background-color: #046ee5;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
+    transition: border-color 0.3s ease;
 }
 
-button:disabled {
-    background-color: #b0bec5;
-    cursor: not-allowed;
+input:focus {
+    border: 2px solid #A1DD70;
+    outline: none;
 }
 
-.success-message {
-    color: green;
-    font-size: 14px;
-}
-
-.error-message {
+.label-error {
     color: red;
+    font-size: 0.9em;
+    margin-top: 8px;
+}
+
+.signin-footer {
+    margin-top: 20px;
     font-size: 14px;
+}
+
+.signin-footer a {
+    color: #6a994e;
+    text-decoration: none;
+}
+
+.signin-footer a:hover {
+    text-decoration: underline;
 }

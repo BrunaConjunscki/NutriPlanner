@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import Pacientes from "../pages/Pacientes";
 import Refeicoes from "../pages/Refeicoes";
 import Perfil from "../pages/Perfil";
+import DetalhesPaciente from '../pages/DetalhesPaciente'
 
 const RoutesApp = (props) => {
     return (
@@ -24,6 +25,8 @@ const RoutesApp = (props) => {
                     <Route path="/refeicoes" element={props.isLoggedIn ? <Refeicoes /> : <Navigate to={'/'} />} />
                     <Route path="/perfil" element={props.isLoggedIn ? <Perfil /> : <Navigate to={'/'} />} />
                     <Route path="*" element={<Navigate to={'/home'} />} />
+                    <Route path="/paciente/:id" element={<DetalhesPaciente />} />
+
                 </Routes>
             </Fragment>
         </BrowserRouter>

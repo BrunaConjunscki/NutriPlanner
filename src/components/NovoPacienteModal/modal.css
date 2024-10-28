@@ -12,7 +12,7 @@
     backdrop-filter: blur(5px);
 }
 
-.modal-content {
+.modal-content-novo {
     background: white;
     padding: 20px;
     border-radius: 12px;
@@ -100,7 +100,7 @@ label {
 .modal-close-button {
     position: absolute;
     top: 10px;
-    left: 360px;
+    left: 765px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -147,6 +147,7 @@ label {
     color: white;
     flex-grow: 1;
     transition: background-color 0.3s ease;
+    border: none;
 }
 
 .confirmation-modal .confirmar-button {

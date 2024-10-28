@@ -1,49 +1,116 @@
 .profile-page {
     display: flex;
-    flex-direction: column;
-    height: 100vh; /* Para ocupar toda a altura da tela */
+    height: 100vh;
 }
 
 .profile-container {
     display: flex;
-    flex: 1; /* O container ocupará o espaço restante */
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .profile-content {
-    flex: 1; /* O conteúdo do perfil ocupará o espaço restante após a Sidebar */
+    flex: 1;
     padding: 20px;
-    overflow-y: auto; /* Adiciona rolagem caso o conteúdo ultrapasse a altura da tela */
-}
-
-h2 {
-    text-align: center;
-    color: #FC6000; /* Cor de destaque */
+    overflow-y: auto;
 }
 
 .profile-card {
-    border: 1px solid #ddd;
+    background-color: #ffffff;
     border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+}
+
+.profile-card h3 {
+    color: #4E6033;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.profile-title {
+    font-weight: bold;
+    margin-right: 5px; /* Ajuste opcional para espaçamento */
 }
 
 .profile-info {
     display: flex;
     flex-direction: column;
+    gap: 15px;
 }
 
 .profile-item {
     display: flex;
     align-items: center;
-    margin: 10px 0;
 }
 
 .profile-icon {
     margin-right: 10px;
-    color: #FC6000; /* Cor dos ícones */
+    color: #FC6000;
 }
 
 span {
     font-size: 1.1em;
     color: #333;
+}
+
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+}
+
+.loading-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 250px;
+}
+
+.loading-text {
+    font-size: 1.2em;
+    color: #FC6000;
+    margin-bottom: 10px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #FC6000;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-top: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.error-message {
+    color: #D9534F;
+    background-color: #F2DEDE;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

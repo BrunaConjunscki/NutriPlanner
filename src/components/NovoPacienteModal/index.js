@@ -110,7 +110,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content" overlayClassName="modal-overlay">
+            <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-novo" overlayClassName="modal-overlay">
                 <button className="modal-close-button" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Novo Paciente</h2>
                 <div className="modal-body">
@@ -127,7 +127,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                 onChange={(e) => setNome(e.target.value)}
                                 className={`input ${errors.nome ? 'input-error' : ''}`}
                             />
-                            {errors.nome && <span className="error-message">{errors.nome}</span>}
+                            {errors.nome && <span className="error-message-modal">{errors.nome}</span>}
                         </div>
 
                         {/* DATA NASCIMENTO */}
@@ -160,7 +160,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                 max={new Date().toISOString().split("T")[0]} // Limita a data ao dia de hoje
                                 className={`input ${errors.data_nascimento ? 'input-error' : ''}`}
                             />
-                            {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>}
+                            {errors.data_nascimento && <span className="error-message-modal">{errors.data_nascimento}</span>}
                         </div>
 
                         {/* NOME RESPONSAVEL */}
@@ -174,7 +174,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                     onChange={(e) => setnome_responsavel(e.target.value)}
                                     className={`input ${errors.nome_responsavel ? 'input-error' : ''}`}
                                 />
-                                {errors.nome_responsavel && <span className="error-message">{errors.nome_responsavel}</span>}
+                                {errors.nome_responsavel && <span className="error-message-modal">{errors.nome_responsavel}</span>}
                             </div>
                         )}
 
@@ -199,7 +199,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                 <option value="criança">Criança</option>
                                 <option value="gestante">Gestante</option>
                             </select>
-                            {errors.tipo_paciente && <span className="error-message">{errors.tipo_paciente}</span>}
+                            {errors.tipo_paciente && <span className="error-message-modal">{errors.tipo_paciente}</span>}
                         </div>
 
                         {/* GENERO BIOLOGICO */}
@@ -215,7 +215,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                 <option value="F">Feminino</option>
                                 <option value="M" disabled={tipo_paciente === 'gestante'}>Masculino</option>
                             </select>
-                            {errors.sexo && <span className="error-message">{errors.sexo}</span>}
+                            {errors.sexo && <span className="error-message-modal">{errors.sexo}</span>}
                         </div>
 
                         {/* EMAIL */}
@@ -248,7 +248,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                     />
                                 )}
                             </InputMask>
-                            {errors.telefone && <span className="error-message">{errors.telefone}</span>}
+                            {errors.telefone && <span className="error-message-modal">{errors.telefone}</span>}
                         </div>
 
                         {/* OBJETIVOS */}
@@ -261,7 +261,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                                 onChange={(e) => setobjetivo(e.target.value)}
                                 className={`input ${errors.objetivo ? 'input-error' : ''}`}
                             />
-                            {errors.objetivo && <span className="error-message">{errors.objetivo}</span>}
+                            {errors.objetivo && <span className="error-message-modal">{errors.objetivo}</span>}
                         </div>
                     </div>
                     <div className="modal-footer">

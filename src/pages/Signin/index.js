@@ -1,12 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
-import './signin.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from 'axios';
+import axios from "axios";
 import { setAuthenticationHeader } from "../../utils/authHeader";
 import { connect } from "react-redux";
+import "./signin.css";
+
+const Loading = () => (
+    <div className="loading-overlay">
+        <div className="loading-box">
+            <p className="loading-text">Carregando</p>
+            <div className="spinner"></div>
+        </div>
+    </div>
+);
 
 const SignIn = (props) => {
     const navigate = useNavigate();
@@ -39,7 +48,7 @@ const SignIn = (props) => {
         }
 
         if (!validateEmail(email)) {
-            setError("Email inválido");
+            setError("Email ou senha inválido");
             return;
         }
 
@@ -50,10 +59,12 @@ const SignIn = (props) => {
 
         setLoading(true);
 
-        axios.post('http://localhost:8000/api/login', {
-            email: email,
-            password: senha,
-        }).then(response => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/login', {
+                email,
+                password: senha,
+            });
+
             if (response.data.success) {
                 localStorage.setItem('user_token', response.data.token);
                 setAuthenticationHeader(response.data.token);
@@ -62,12 +73,15 @@ const SignIn = (props) => {
             } else {
                 setError(response.data.message);
             }
-        }).catch(err => {
+        } catch (err) {
             console.log(err);
-        });
-
-        setLoading(false);
+            setError("Erro ao tentar fazer login. Por favor, tente novamente.");
+        } finally {
+            setLoading(false);
+        }
     };
+
+    if (loading) return <Loading />;
 
     return (
         <div className="signin-container">
@@ -76,10 +90,11 @@ const SignIn = (props) => {
             </div>
             <div className="signin-right">
                 <div className="signin-content">
-                <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="signin-logo-image" />
+                    <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="signin-logo-image" />
                     <h2 className="signin-title">Entrar</h2>
+                    
                     <div className="input-group">
-                        <label htmlFor="email" className="input-label">Email</label>
+                        <label htmlFor="email" className="input-label-signin">Email</label>
                         <Input
                             id="email"
                             type="email"
@@ -89,10 +104,12 @@ const SignIn = (props) => {
                             aria-label="Email"
                             autoComplete="email"
                             ref={emailRef}
+                            className={error ? "input-error" : ""}
                         />
                     </div>
+
                     <div className="input-group">
-                        <label htmlFor="senha" className="input-label">Senha</label>
+                        <label htmlFor="senha" className="input-label-signin">Senha</label>
                         <div className="password-container">
                             <Input
                                 id="senha"
@@ -102,6 +119,7 @@ const SignIn = (props) => {
                                 onChange={(e) => [setSenha(e.target.value), setError("")]}
                                 aria-label="Senha"
                                 autoComplete="current-password"
+                                className={error ? "input-error" : ""}
                             />
                             <button 
                                 type="button" 
@@ -113,12 +131,15 @@ const SignIn = (props) => {
                             </button>
                         </div>
                     </div>
+
                     {error && <label className="label-error">{error}</label>}
+                    
                     <Button 
-                        Text={loading ? <span className="loading-spinner"></span> : "Entrar"} 
+                        Text="Entrar" 
                         onClick={handleLogin}
                         disabled={loading}
                     />
+                    
                     <div className="signin-footer">
                         <p>Não tem conta? <Link to="/signup">Registrar-se</Link></p>
                         <p><Link to="/forgot-password">Esqueceu a senha?</Link></p>

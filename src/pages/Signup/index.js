@@ -9,15 +9,15 @@ import axios from 'axios';
 const SignUp = () => {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
-    const [emailConf, setEmailConf] = useState("");
     const [senha, setSenha] = useState("");
+    const [senhaConf, setSenhaConf] = useState(""); 
     const [crn, setCrn] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConf, setShowPasswordConf] = useState(false); 
 
     const navigate = useNavigate();
-
     const nomeRef = useRef(null);
 
     useEffect(() => {
@@ -27,19 +27,19 @@ const SignUp = () => {
     }, []);
 
     const handleSignup = async () => {
-        if (!nome || !email || !emailConf || !senha) {
+        if (!nome || !email || !senha || !senhaConf) {
             setError("Preencha todos os campos obrigatórios.");
             return;
-        } else if (email !== emailConf) {
-            setError("Os e-mails não são iguais.");
+        } else if (senha !== senhaConf) {
+            setError("As senhas não são iguais.");
             return;
         }
 
         axios.post('http://localhost:8000/api/register', {
             name: nome,
             email: email,
-            email_confirmation: emailConf,
             password: senha,
+            password_confirmation: senhaConf,
             crn: crn,
         }).then((response) => {
             if(response.data.success) {
@@ -65,19 +65,19 @@ const SignUp = () => {
                     <img src="/images/NutriPlannerLogo.png" alt="NutriPlanner" className="signup-logo-image" />
                     <h2 className="signup-title">Cadastro</h2>
                     <div className="input-group">
-                        <label htmlFor="nome" className="input-label">Nome Completo <span className="required">*</span></label>
+                        <label htmlFor="nome" className="input-label-signup">Nome Completo <span className="required">*</span></label>
                         <Input
                             id="nome"
                             type="text"
                             placeholder="Digite seu Nome Completo"
                             value={nome}
                             onChange={(e) => setNome(e.target.value)}
-                            ref={nomeRef} // Referência para o campo de nome
+                            ref={nomeRef} 
                         />
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="email" className="input-label">E-mail <span className="required">*</span></label>
+                        <label htmlFor="email" className="input-label-signup">E-mail <span className="required">*</span></label>
                         <Input
                             id="email"
                             type="email"
@@ -88,18 +88,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="emailConf" className="input-label">Confirme seu E-mail <span className="required">*</span></label>
-                        <Input
-                            id="emailConf"
-                            type="email"
-                            placeholder="Confirme seu E-mail"
-                            value={emailConf}
-                            onChange={(e) => setEmailConf(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="input-group">
-                        <label htmlFor="senha" className="input-label">Senha <span className="required">*</span></label>
+                        <label htmlFor="senha" className="input-label-signup">Senha <span className="required">*</span></label>
                         <div className="password-container">
                             <Input
                                 id="senha"
@@ -120,7 +109,28 @@ const SignUp = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="crn" className="input-label">CRN (Opcional)</label>
+                        <label htmlFor="senhaConf" className="input-label-signup">Confirme sua Senha <span className="required">*</span></label>
+                        <div className="password-container">
+                            <Input
+                                id="senhaConf"
+                                type={showPasswordConf ? "text" : "password"}
+                                placeholder="Confirme sua Senha"
+                                value={senhaConf}
+                                onChange={(e) => setSenhaConf(e.target.value)} 
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPasswordConf(!showPasswordConf)} 
+                                aria-label={showPasswordConf ? "Ocultar senha" : "Mostrar senha"}
+                            >
+                                {showPasswordConf ? <FaEye /> : <FaEyeSlash />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="input-group">
+                        <label htmlFor="crn" className="input-label-signup">CRN</label>
                         <Input
                             id="crn"
                             type="text"

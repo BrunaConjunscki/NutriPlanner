@@ -1,16 +1,18 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./styles.css";
+import "./topbar.css";
 
 const Topbar = ({ menuItems }) => {
-    const location = useLocation(); // Para saber a rota atual
-    const navigate = useNavigate(); // Função para navegar entre as rotas
+    const location = useLocation(); 
+    const navigate = useNavigate();
+
+    const currentMenuItem = menuItems?.find((item) => item.path === location.pathname);
 
     return (
         <header className="topbar">
             <h2>
-                {menuItems.find((item) => item.path === location.pathname)?.name}
+                {currentMenuItem ? currentMenuItem.name : 'Título padrão'}
             </h2>
             <div className="topbar-icons">
                 <FaUserCircle 

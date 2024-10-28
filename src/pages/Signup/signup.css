@@ -56,11 +56,12 @@
     margin-bottom: 5px;
 }
 
-.input-label {
+.input-label-signup {
     display: block;
     font-size: 14px;
     color: #676767;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 .required {
@@ -89,7 +90,7 @@ input:focus {
 
 .password-toggle {
     position: absolute;
-    right: -150px;
+    right: 30px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
