@@ -13,57 +13,110 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     background-color: #f0f2f5;
 }
 
-.detalhes-title {
-    font-size: 24px;
-    color: #4E6033;
-    margin-bottom: 10px;
-}
-
-.detalhes-content {
+.dados-basicos {
     width: 100%;
-    max-width: 600px; 
-    padding: 20px;
+    max-width: 800px; /* Tamanho máximo do card */
     background-color: #f9fbfc;
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Aumenta o padding para dar mais espaço */
 }
 
-.detalhes-card {
+.dados-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dados-header h3 {
+    color: #E8751A;
+    margin-bottom: 15px;
+}
+
+.dados-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; 
+}
+
+.dados-item {
+    display: flex;
+    align-items: center;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.dados-item:hover {
+    transform: scale(1.02);
+}
+
+.dados-info strong {
+    color: #4E6033;
+    margin-left: 5px; /* Espaço entre o ícone e o texto */
+    margin-right: 5px;/*Espaço entre o texto e as infos*/
+}
+
+.icon-style {
+    color: #333;
+}
+
+.consulta-secao {
     width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
 }
 
-.card-icon {
-    margin-bottom: 15px;
+.consulta-secao h3{
+    color: #E8751A;
+    margin-left: 20px;
 }
 
-.card-info {
-    margin-bottom: 15px;
+.consulta-opcoes {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-left: 150px;
+}
+
+.consulta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+    color: #4E6033;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px; /* Aumenta o padding para dar mais espaço */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    width: 150px; /* Define uma largura fixa para os itens */
+    height: 80px; /* Define uma altura fixa para os itens */
+    margin-right: 30px;
+}
+
+.consulta-item:hover {
+    transform: translateY(-2px);
 }
 
 .buttonEdit {
-    margin-top: 10px;
-    padding: 10px 15px;
+    padding: 8px 15px;
     font-size: 14px;
-    font-weight: 400;
     background-color: #799351;
     border: none;
-    border-radius: 20px;
+    border-radius: 15px;
     cursor: pointer;
     color: white;
     display: flex;
     align-items: center;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 15px;
 }
 
 .buttonEdit:hover {
@@ -74,9 +127,70 @@
     background-color: #6B8E23;
     transform: scale(0.98);
 }
-
-.error-message {
-    color: red;
-    margin-top: 10px;
+.breadcrumb {
+    margin: 10px 0px 0px 10px;
     font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #E8751A;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .active {
+    font-weight: bold;
+    color: #333;
+    cursor: default;
+}
+
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    background-color: grey;
+}
+
+.loading-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 250px;
+}
+
+.loading-text {
+    font-size: 1.2em;
+    color: #FC6000;
+    margin-bottom: 10px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #FC6000;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-top: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

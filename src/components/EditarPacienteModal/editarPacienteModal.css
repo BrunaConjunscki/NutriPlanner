@@ -1,49 +1,266 @@
 .modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
-.modal-content {
+.modal-content-novo {
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    width: 400px;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.modal-content h2 {
+.modal-title {
+    font-size: 24px;
+    color: #617A55;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-body {
+    display: grid;
+    gap: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input {
+    background-color: #f0f2f5;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.modal-content .input,
+.modal-content select {
+    outline: none;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f0f2f5;
+    border: 1px solid #ccc;
+    color: #666;
+}
+
+.modal-content .input:focus,
+.modal-content select:focus {
+    border: 2px solid #A1DD70;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-button {
+    outline: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #A1DD70;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+    background-color: #799351;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    left: 765px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    color: #617A55;
+}
+
+.confirmation-modal .confirmation-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.confirmation-modal h3 {
+    font-size: 20px;
+    color: #617A55;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.confirmation-modal .confirmation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.confirmation-modal .confirmar-button,
+.confirmation-modal .cancelar-button {
+    outline: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    flex-grow: 1;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.confirmation-modal .confirmar-button {
+    background-color: #A1DD70;
+}
+
+.confirmation-modal .confirmar-button:hover {
+    background-color: #799351;
+}
+
+.confirmation-modal .cancelar-button {
+    background-color: #d9534f;
+}
+
+.confirmation-modal .cancelar-button:hover {
+    background-color: #c9302c;
+}
+
+.input-error {
+    border-color: red;
+}
+
+.error-message-modal {
+    color: red;
+    font-size: 0.875rem;
+}
+
+.required {
+    color: red;
+}
+
+.success-modal .success-content {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.success-modal .success-content p {
     margin-bottom: 15px;
 }
 
-.modal-content label {
-    display: block;
+.success-modal .modal-button {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.success-modal .modal-button:hover {
+    background-color: #218838;
+}
+
+.success-modal {
+    position: relative;
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.success-modal h3 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
     margin-bottom: 10px;
 }
 
-.modal-content input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.success-modal p {
+    font-size: 16px;
+    color: #666;
 }
 
-.modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+.success-modal .modal-footer {
+    margin-top: 20px;
 }
 
-.modal-buttons button {
-    padding: 10px 15px;
+.success-modal .modal-button {
+    background-color: #28a745;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.success-modal .modal-button:hover {
+    background-color: #A1DD70;
+}
+
+.success-modal .modal-button:focus {
+    outline: none;
+}
+
+.success-button {
+    background: #799351;
+    border-radius: 20px;
+    width: 50%;
+}
+
+
+.success-button:hover {
+    background-color: #A1DD70;
 }

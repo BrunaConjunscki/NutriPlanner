@@ -22,7 +22,7 @@ const Pacientes = () => {
     const getPacientes = async () => {
         setLoadingPaciente(true);
         try {
-            const response = await axios.get('http://localhost:8000/api/pacientes');
+            const response = await axios.get('http://localhost:8000/api/pacientes?limit=20&page=');
             const sortedPacientes = response.data.sort((a, b) =>
                 a.nome.localeCompare(b.nome)
             );

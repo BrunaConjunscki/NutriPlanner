@@ -7,8 +7,9 @@ const Topbar = ({ menuItems }) => {
     const location = useLocation(); 
     const navigate = useNavigate();
 
-    const currentMenuItem = menuItems?.find((item) => item.path === location.pathname);
-
+    const currentMenuItem = menuItems?.find((item) => 
+        location.pathname.startsWith(item.path) // Verifica se o caminho atual começa com o caminho definido
+    );
     return (
         <header className="topbar">
             <h2>
