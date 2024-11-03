@@ -13,16 +13,25 @@ class PacienteController extends Controller
         $query = Paciente::query()
             ->where('nutricionista_id', $request->user()->nutricionista->id);
 
+        if(!$request->has('limit')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'É obrigatório informar a quantidade de itens por página e o número da página'
+            ]);
+        }
+
+        $query->limit($request->limit);
+
+        $page = $request->page ?? 1;
+        $query->offset(($page - 1) * $request->limit);
+
         foreach ($request->all() as $filtro => $valor) {
-            if($filtro === 'limit') {
-                $query->limit($valor);
-            }
 
             if(str_contains('nome nome_responsavel sexo', $filtro)) {
                 $query->where($filtro, 'ilike', '%' . $valor . '%');
             }
-        }
 
+        }
 
         $pacientes = $query->orderBy('data_cadastro', 'desc')->get();
 
@@ -61,6 +70,7 @@ class PacienteController extends Controller
         }
 
         $dados = $request->validated();
+        $this->unmaskVariables($dados);
         $paciente->update($dados);
 
         return response()->json([

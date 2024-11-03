@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FaQuestionCircle } from "react-icons/fa";
 import Modal from 'react-modal';
 import InputMask from 'react-input-mask';
 import './modal.css';
 import axios from 'axios';
+import Help from "../Help";
 
 const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
     const [nome, setNome] = useState('');
@@ -17,6 +19,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [errors, setErrors] = useState({});
+    const [isHelpOpen, setIsHelpOpen] = useState(false)
 
     const nomeRef = useRef(null);
 
@@ -112,6 +115,10 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-novo" overlayClassName="modal-overlay">
                 <button className="modal-close-button" onClick={handleClose}>×</button>
+                <FaQuestionCircle
+                    className='icon'
+                    onClick={() => setIsHelpOpen(true)}
+                />
                 <h2 className="modal-title">Novo Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
@@ -290,9 +297,15 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                     </div>
                 </Modal>
             )}
+            {isHelpOpen && (
+                <Help
+                    isOpen={isHelpOpen}
+                    onRequestClose={() => setIsHelpOpen(false)}
+                    location='novo_paciente'
+                />
+            )}
         </>
     );
-
     function handleClose() {
         setShowConfirmation(true);
     }

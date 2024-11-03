@@ -1,13 +1,16 @@
-import React from "react";
-import { FaUserCircle } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from 'react';
+import { FaUserCircle, FaQuestionCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./topbar.css";
+import Help from "../Help";
+import NovoPacienteModal from "../NovoPacienteModal";
 
 const Topbar = ({ menuItems }) => {
-    const location = useLocation(); 
     const navigate = useNavigate();
+    const location = useLocation(); // Para saber a rota atual
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
 
-    const currentMenuItem = menuItems?.find((item) => 
+    const currentMenuItem = menuItems?.find((item) =>
         location.pathname.startsWith(item.path) // Verifica se o caminho atual começa com o caminho definido
     );
     return (
@@ -16,12 +19,27 @@ const Topbar = ({ menuItems }) => {
                 {currentMenuItem ? currentMenuItem.name : 'Título padrão'}
             </h2>
             <div className="topbar-icons">
-                <FaUserCircle 
+                <FaQuestionCircle
+                    className="icon"
+                    onClick={() => setIsHelpOpen(true)}
+                />
+                <FaUserCircle
                     className="icon" 
                     onClick={() => navigate("/perfil")} 
                     style={{ cursor: "pointer" }}
                 /> 
             </div>
+
+            {isHelpOpen && (
+                <Help
+                    isOpen={isHelpOpen}
+                    onRequestClose={() => {
+                        setIsHelpOpen(false);
+                    }}
+                    location={location.pathname}
+                />
+            )}
+
         </header>
     );
 };
