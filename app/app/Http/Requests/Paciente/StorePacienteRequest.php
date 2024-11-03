@@ -31,8 +31,8 @@ class StorePacienteRequest extends FormRequest
             'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18)],
             'anamnese' => ['string'],
             'objetivo' => ['required', 'string'],
-            'email' => ['nullable', 'unique:pacientes', 'email:rfc,dns'],
-            'telefone' => ['nullable', 'string', 'unique:pacientes'],
+            'email' => ['nullable', 'email:rfc,dns'],
+            'telefone' => ['required', 'string'],
         ];
     }
 
