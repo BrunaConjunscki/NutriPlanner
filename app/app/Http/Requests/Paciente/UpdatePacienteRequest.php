@@ -32,7 +32,7 @@ class UpdatePacienteRequest extends FormRequest
             'nome_responsavel' => [Rule::requiredIf(Carbon::parse($this->data_nascimento)->age < 18), 'string'],
             'anamnese' => ['string'],
             'objetivo' => ['required', 'string'],
-            'email' => ['email:rfc,dns'],
+            'email' => ['nullable', 'email:rfc,dns'],
             'telefone' => ['nullable', 'string'],
         ];
     }
