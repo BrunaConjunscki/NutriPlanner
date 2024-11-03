@@ -81,16 +81,28 @@ label {
 }
 
 .modal-button {
-    outline: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 600;
+    width: 100%;
+    max-width: 250px;
+    margin: 20px auto;
+    padding: 10px;
     background-color: #A1DD70;
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    border-radius: 10px;
     color: white;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
+    cursor: pointer;
+}
+.button {
+    width: 100%;
+    max-width: 250px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #A1DD70;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .modal-button:hover {

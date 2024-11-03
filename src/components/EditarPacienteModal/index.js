@@ -17,6 +17,8 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    
 
     const nomeRef = useRef(null);
 
@@ -60,16 +62,13 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
 
     const validateForm = () => {
         const newErrors = {};
-        const regexTelefone = /^\(\d{2}\) \d{5}-\d{4}$/;
-
-
+    
         if (!nome) newErrors.nome = 'Nome completo é obrigatório.';
         if (isMenorIdade && !nome_responsavel) newErrors.nome_responsavel = 'Nome do responsável é obrigatório.';
         if (!tipo_paciente) newErrors.tipo_paciente = 'Tipo de paciente é obrigatório.';
         if (!sexo) newErrors.sexo = 'Gênero biológico é obrigatório.';
-        if (!telefone || !regexTelefone.test(telefone)) newErrors.telefone = 'Telefone com DDD no formato (XX) XXXXX-XXXX é obrigatório.';
         if (!objetivo) newErrors.objetivo = 'Os objetivos são obrigatórios.';
-
+    
         const hoje = new Date();
         const nascimento = new Date(data_nascimento.split("/").reverse().join("-"));
         if (!data_nascimento) {
@@ -79,10 +78,11 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
         } else if (nascimento > new Date(hoje.setFullYear(hoje.getFullYear() - 0))) {
             newErrors.data_nascimento = 'A data de nascimento parece ser muito recente.';
         }
-
+    
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+    
 
     const handleSubmit = async () => {
         if (validateForm()) {
@@ -125,8 +125,8 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal-content-novo" overlayClassName="modal-overlay">
-                <button className="modal-close-button" onClick={onRequestClose}>×</button>
+            <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-novo" overlayClassName="modal-overlay">
+                <button className="modal-close-button" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Editar Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
@@ -218,8 +218,8 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                                 className={`input ${errors.sexo ? 'input-error' : ''}`}
                             >
                                 <option value="">Selecione um gênero</option>
-                                <option value="feminino">Feminino</option>
-                                <option value="masculino">Masculino</option>
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
                             </select>
                             {errors.sexo && <span className="error-message-modal">{errors.sexo}</span>}
                         </div>
@@ -244,35 +244,18 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                                 placeholder="(XX) XXXXX-XXXX"
                                 value={telefone}
                                 onChange={(e) => {
-                                    const newTelefone = e.target.value;
-                                    console.log("Telefone atual:", newTelefone); // Log para verificar o valor do telefone
+                                    const newTelefone = e.target.value 
                                     setTelefone(newTelefone);
-
-                                    // Verificação em tempo real
-                                    const regexTelefone = /^\(\d{2}\) \d{5}-\d{4}$/;
-                                    if (!regexTelefone.test(newTelefone)) {
-                                        setErrors(prevErrors => ({
-                                            ...prevErrors,
-                                            telefone: 'Telefone com DDD no formato (XX) XXXXX-XXXX é obrigatório.'
-                                        }));
-                                    } else {
-                                        // Remove o erro se o telefone for válido
-                                        setErrors(prevErrors => {
-                                            const { telefone, ...rest } = prevErrors;
-                                            return rest;
-                                        });
-                                    }
                                 }}
                                 className={`input ${errors.telefone ? 'input-error' : ''}`}
                             />
                             {errors.telefone && <span className="error-message-modal">{errors.telefone}</span>}
                         </div>
 
-
                         {/* OBJETIVOS */}
                         <div className="form-group">
                             <label>Objetivos <span className="required">*</span></label>
-                            <textarea
+                            <input
                                 value={objetivo}
                                 onChange={(e) => setObjetivo(e.target.value)}
                                 className={`input ${errors.objetivo ? 'input-error' : ''}`}
@@ -283,13 +266,50 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
 
                         {errorMessage && <span className="error-message-modal">{errorMessage}</span>} {/* Mensagem de erro geral */}
 
-                        <button className="button" onClick={handleSubmit}>Salvar</button>
-                        {showSuccess && <span className="success-message-modal">Paciente atualizado com sucesso!</span>}
                     </div>
+                    <button className="modal-button" onClick={handleSubmit}>Salvar</button>
                 </div>
             </Modal>
+            
+            {showSuccess && (
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
+                    <div className="success-content">
+                        <h3>Paciente cadastrado com sucesso!</h3>
+                    </div>
+                </Modal>
+
+            )}
+
+            {showConfirmation && (
+                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
+                    <div className="confirmation-content">
+                        <h3>Deseja sair sem salvar?</h3>
+                        <div className="confirmation-buttons">
+                            <button className="confirmar-button" onClick={handleConfirmClose}>Sim</button>
+                            <button className="cancelar-button" onClick={handleCancelClose}>Não</button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </>
     );
+    function handleClose() {
+        setShowConfirmation(true);
+    }
+
+    function handleConfirmClose() {
+        setShowConfirmation(false);
+        onRequestClose();
+    }
+
+    function handleCancelClose() {
+        setShowConfirmation(false);
+    }
+
+    function handleSuccessClose() {
+        setShowSuccess(false);
+        onRequestClose();
+    }
 };
 
 export default EditarPacienteModal;
