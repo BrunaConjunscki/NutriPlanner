@@ -297,6 +297,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                     </div>
                 </Modal>
             )}
+            
             {isHelpOpen && (
                 <Help
                     isOpen={isHelpOpen}
@@ -306,6 +307,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
             )}
         </>
     );
+    
     function handleClose() {
         setShowConfirmation(true);
     }

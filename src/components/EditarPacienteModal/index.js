@@ -19,7 +19,6 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     
-
     const nomeRef = useRef(null);
 
     useEffect(() => {
@@ -86,6 +85,7 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
 
     const handleSubmit = async () => {
         if (validateForm()) {
+            // Exibe o modal de sucesso
             try {
                 const response = await axios.put(`http://localhost:8000/api/pacientes/${paciente.id}`, {
                     nome,
@@ -99,29 +99,41 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                 }, { headers: { Accept: 'application/json' } });
     
                 console.log(response.data);
-                setShowSuccess(true);
+                setShowSuccess(true); // Define showSuccess como verdadeiro
                 setErrorMessage(''); 
                 
-                // Chama a função onSave após salvar o paciente
-                onSave(response.data); // Passa os dados do paciente atualizado
             } catch (error) {
                 console.error("Error updating paciente:", error);
-                setErrorMessage("Erro ao atualizar paciente."); // Atualiza mensagem de erro
+                setErrorMessage("Erro ao atualizar paciente.");
             }
         }
     };
-    
 
     useEffect(() => {
         if (showSuccess) {
             const timer = setTimeout(() => {
                 setShowSuccess(false);
                 onRequestClose(); // Fecha o modal
+                // onSave(response.data); 
+                window.location.reload()
             }, 2000); // 2000 ms = 2 segundos
 
             return () => clearTimeout(timer); // Limpa o timer se o modal for fechado antes
         }
     }, [showSuccess, onRequestClose]);
+
+    const handleClose = () => {
+        setShowConfirmation(true); // Exibe o modal de confirmação ao tentar fechar
+    };
+
+    const handleConfirmClose = () => {
+        setShowConfirmation(false);
+        onRequestClose();
+    };
+
+    const handleCancelClose = () => {
+        setShowConfirmation(false);
+    };
 
     return (
         <>
@@ -130,7 +142,6 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                 <h2 className="modal-title">Editar Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
-
                         {/* NOME COMPLETO */}
                         <div className="form-group">
                             <label>Nome Completo <span className="required">*</span></label>
@@ -217,9 +228,9 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                                 onChange={(e) => setSexo(e.target.value)}
                                 className={`input ${errors.sexo ? 'input-error' : ''}`}
                             >
-                                <option value="">Selecione um gênero</option>
-                                <option value="F">Feminino</option>
-                                <option value="M">Masculino</option>
+                                <option value="">Selecione o gênero</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="masculino">Masculino</option>
                             </select>
                             {errors.sexo && <span className="error-message-modal">{errors.sexo}</span>}
                         </div>
@@ -238,48 +249,36 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
 
                         {/* TELEFONE */}
                         <div className="form-group">
-                            <label>Telefone com DDD <span className="required">*</span></label>
+                            <label>Telefone <span className="required">*</span></label>
                             <InputMask
                                 mask="(99) 99999-9999"
-                                placeholder="(XX) XXXXX-XXXX"
+                                placeholder="Telefone com DDD"
                                 value={telefone}
-                                onChange={(e) => {
-                                    const newTelefone = e.target.value 
-                                    setTelefone(newTelefone);
-                                }}
-                                className={`input ${errors.telefone ? 'input-error' : ''}`}
+                                onChange={(e) => setTelefone(e.target.value)}
+                                className="input"
                             />
-                            {errors.telefone && <span className="error-message-modal">{errors.telefone}</span>}
                         </div>
 
                         {/* OBJETIVOS */}
                         <div className="form-group">
                             <label>Objetivos <span className="required">*</span></label>
                             <input
+                                placeholder="Objetivos"
                                 value={objetivo}
                                 onChange={(e) => setObjetivo(e.target.value)}
                                 className={`input ${errors.objetivo ? 'input-error' : ''}`}
-                                placeholder="Descreva os objetivos"
                             />
                             {errors.objetivo && <span className="error-message-modal">{errors.objetivo}</span>}
                         </div>
-
-                        {errorMessage && <span className="error-message-modal">{errorMessage}</span>} {/* Mensagem de erro geral */}
-
                     </div>
-                    <button className="modal-button" onClick={handleSubmit}>Salvar</button>
                 </div>
+                <div className="modal-footer">
+                    <button className="button" onClick={handleSubmit}>Salvar</button>
+                </div>
+                {/* {errorMessage && <p className="error-message">{errorMessage}</p>} */}
             </Modal>
-            
-            {showSuccess && (
-                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
-                    <div className="success-content">
-                        <h3>Paciente cadastrado com sucesso!</h3>
-                    </div>
-                </Modal>
 
-            )}
-
+            {/* Modal de confirmação de fechamento */}
             {showConfirmation && (
                 <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
                     <div className="confirmation-content">
@@ -291,25 +290,17 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                     </div>
                 </Modal>
             )}
+                {/* Modal salvo com sucesso */}
+            {showSuccess && (
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
+                    <div className="success-content">
+                        <h3>Paciente atualizado com sucesso!</h3>
+                    </div>
+                </Modal>
+
+            )}
         </>
     );
-    function handleClose() {
-        setShowConfirmation(true);
-    }
-
-    function handleConfirmClose() {
-        setShowConfirmation(false);
-        onRequestClose();
-    }
-
-    function handleCancelClose() {
-        setShowConfirmation(false);
-    }
-
-    function handleSuccessClose() {
-        setShowSuccess(false);
-        onRequestClose();
-    }
 };
 
 export default EditarPacienteModal;

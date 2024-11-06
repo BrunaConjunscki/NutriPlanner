@@ -191,13 +191,13 @@ label {
     color: red;
 }
 
-.success-modal .success-content {
+.Success-modal-editar .Success-content-editar {
     background-color: white;
     padding: 20px;
     text-align: center;
 }
 
-.success-modal .success-content p {
+.Success-modal-editar .Success-content-editar p {
     margin-bottom: 15px;
 }
 
@@ -219,7 +219,7 @@ label {
     background-color: #218838;
 }
 
-.success-modal {
+.Success-modal-editar {
     position: relative;
     max-width: 400px;
     margin: 15px auto;
@@ -230,7 +230,7 @@ label {
     text-align: center;
 }
 
-.success-modal h3 {
+.Success-modal-editar h3 {
     margin-top: 0;
     font-size: 20px;
     font-weight: 600;
@@ -238,12 +238,12 @@ label {
     margin-bottom: 10px;
 }
 
-.success-modal p {
+.Success-modal-editar p {
     font-size: 16px;
     color: #666;
 }
 
-.success-modal .modal-footer {
+.Success-modal-editar .modal-footer {
     margin-top: 20px;
 }
 
