@@ -36,7 +36,7 @@
     box-sizing: border-box;
 }
 
-.section-header {
+.section-header-refeicoes {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -58,7 +58,7 @@
     width: 70%;
 }
 
-.search-icon {
+.search-icon -refeicoes{
     position: absolute;
     right: 15px;
     color: #888;

@@ -81,7 +81,7 @@ const Pacientes = () => {
                                         onChange={handleSearchChangePaciente}
                                         aria-label="Campo de busca de pacientes"
                                     />
-                                    <FaSearch className="search-icon" />
+                                    <FaSearch className="search-icon-pacientes" />
                                 </div>
                                 <button className="buttonPacientes" onClick={() => setIsModalOpen(true)}>
                                     Novo Paciente

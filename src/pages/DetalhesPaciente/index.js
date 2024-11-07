@@ -137,10 +137,15 @@ const DetalhesPaciente = (props) => {
                 )}
                 {consultaModalOpen && 
                     <ConsultasModal 
-                    isOpen={consultaModalOpen}
-                    onClose={handleCloseModals} 
-                    pacienteId={id} />}
-                {anamneseModalOpen && <AnamneseModal onClose={handleCloseModals} />}
+                        isOpen={consultaModalOpen}
+                        onRequestClose={handleCloseModals} 
+                        pacienteId={id} 
+                    />}
+                {anamneseModalOpen && 
+                    <AnamneseModal 
+                        onClose={handleCloseModals} 
+                        pacienteId={id}
+                    />}
             </div>
         </div>
     );

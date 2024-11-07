@@ -94,7 +94,7 @@ const Refeicoes = () => {
                     <div className="section">
                         <h2 className="section-title">Refeições Cadastradas</h2>
                         <div className="section-content">
-                            <div className="section-header">
+                            <div className="section-header-refeicoes">
                                 <div className="search-container">
                                     <input
                                         type="text"
@@ -104,7 +104,7 @@ const Refeicoes = () => {
                                         onChange={handleSearchChangeRefeicao}
                                         aria-label="Campo de busca de refeições"
                                     />
-                                    <FaSearch className="search-icon" />
+                                    <FaSearch className="search-icon-refeicoes" />
                                     {suggestionsRefeicao.length > 0 && (
                                         <div className="suggestions-container">
                                             {suggestionsRefeicao.map(suggestion => (

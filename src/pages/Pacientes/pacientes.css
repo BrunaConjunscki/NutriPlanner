@@ -114,12 +114,12 @@
     font-size: 16px;
 }
 
-.search-icon {
+.search-icon-pacientes {
     position: absolute;
     right: 15px;
     color: #888;
     font-size: 18px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     pointer-events: none;
 }
 

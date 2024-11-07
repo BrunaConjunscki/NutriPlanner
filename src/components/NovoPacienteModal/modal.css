@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-overlay-novoPaciente {
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -22,38 +22,38 @@
     position: relative;
 }
 
-.modal-title {
+.modal-title-novoPaciente  {
     font-size: 24px;
     color: #617A55;
     text-align: center;
     margin-bottom: 20px;
 }
 
-.modal-body {
+.modal-body-novoPaciente  {
     display: grid;
     gap: 20px;
 }
 
-.form-grid {
+.form-grid-novoPaciente {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
 
-.form-group {
+.form-group-novoPaciente  {
     display: flex;
     flex-direction: column;
 }
 
-.form-group input {
+.form-group-novoPaciente  input {
     background-color: #f0f2f5;
 }
 
-.form-group.full-width {
+.form-group-novoPaciente .full-width {
     grid-column: span 2;
 }
 
-label {
+label-novoPaciente {
     font-weight: 500;
     margin-bottom: 8px;
 }
@@ -75,12 +75,12 @@ label {
     border: 2px solid #A1DD70;
 }
 
-.modal-footer {
+.modal-footer-novoPaciente  {
     display: flex;
     justify-content: center;
 }
 
-.modal-button {
+.modal-button-novoPaciente  {
     outline: none;
     padding: 12px 24px;
     font-size: 16px;
@@ -93,11 +93,11 @@ label {
     transition: background-color 0.3s ease;
 }
 
-.modal-button:hover {
-    background-color: #799351;
+.modal-button-novoPaciente :hover {
+    background-color: #218838;
 }
 
-.modal-close-button {
+.modal-close-button-novoPaciente {
     position: absolute;
     top: 10px;
     left: 765px;
@@ -108,7 +108,7 @@ label {
     cursor: pointer;
 }
 
-.modal-close-button:hover {
+.modal-close-button-novoPaciente :hover {
     color: #617A55;
 }
 

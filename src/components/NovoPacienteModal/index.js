@@ -113,19 +113,19 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-novo" overlayClassName="modal-overlay">
-                <button className="modal-close-button" onClick={handleClose}>×</button>
+            <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-novo" overlayClassName="modal-overlay-novoPaciente">
+                <button className="modal-close-button-novoPaciente" onClick={handleClose}>×</button>
                 <FaQuestionCircle
                     className='icon'
                     onClick={() => setIsHelpOpen(true)}
                 />
-                <h2 className="modal-title">Novo Paciente</h2>
-                <div className="modal-body">
-                    <div className="form-grid">
+                <h2 className="modal-title-novoPaciente ">Novo Paciente</h2>
+                <div className="modal-body-novoPaciente ">
+                    <div className="form-grid-novoPaciente">
 
                         {/* NOME COMPLETO */}
-                        <div className="form-group">
-                            <label>Nome Completo <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Nome Completo <span className="required">*</span></label-novoPaciente >
                             <input
                                 type="text"
                                 ref={nomeRef}
@@ -138,8 +138,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         </div>
 
                         {/* DATA NASCIMENTO */}
-                        <div className="form-group">
-                            <label>Data de Nascimento <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Data de Nascimento <span className="required">*</span></label-novoPaciente >
                             <input
                                 type="date"
                                 onChange={(e) => {
@@ -172,8 +172,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
 
                         {/* NOME RESPONSAVEL */}
                         {isMenorIdade && (
-                            <div className="form-group">
-                                <label>Nome do Responsável <span className="required">*</span></label>
+                            <div className="form-group-novoPaciente ">
+                                <label-novoPaciente >Nome do Responsável <span className="required">*</span></label-novoPaciente >
                                 <input
                                     type="text"
                                     placeholder="Nome do Responsável"
@@ -186,8 +186,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         )}
 
                         {/* TIPO PACIENTE */}
-                        <div className="form-group">
-                            <label>Tipo de Paciente <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Tipo de Paciente <span className="required">*</span></label-novoPaciente >
                             <select
                                 value={tipo_paciente}
                                 onChange={(e) => {
@@ -210,8 +210,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         </div>
 
                         {/* GENERO BIOLOGICO */}
-                        <div className="form-group">
-                            <label>Gênero Biológico <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Gênero Biológico <span className="required">*</span></label-novoPaciente >
                             <select
                                 value={sexo}
                                 onChange={(e) => setsexo(e.target.value)}
@@ -226,8 +226,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         </div>
 
                         {/* EMAIL */}
-                        <div className="form-group">
-                            <label>Email</label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Email</label-novoPaciente >
                             <input
                                 type="email"
                                 placeholder="Email"
@@ -238,8 +238,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         </div>
 
                         {/* TELEFONE */}
-                        <div className="form-group">
-                            <label>Telefone com DDD <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente ">
+                            <label-novoPaciente >Telefone com DDD <span className="required">*</span></label-novoPaciente >
                             <InputMask
                                 mask="(99) 99999-9999"
                                 value={telefone}
@@ -259,8 +259,8 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                         </div>
 
                         {/* OBJETIVOS */}
-                        <div className="form-group full-width">
-                            <label>Objetivos <span className="required">*</span></label>
+                        <div className="form-group-novoPaciente full-width">
+                            <label-novoPaciente >Objetivos <span className="required">*</span></label-novoPaciente >
                             <input
                                 type="text"
                                 placeholder="Objetivos"
@@ -271,14 +271,14 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
                             {errors.objetivo && <span className="error-message-modal">{errors.objetivo}</span>}
                         </div>
                     </div>
-                    <div className="modal-footer">
-                        <button className="modal-button" onClick={handleSubmit}>Cadastrar</button>
+                    <div className="modal-footer-novoPaciente ">
+                        <button className="modal-button-novoPaciente " onClick={handleSubmit}>Cadastrar</button>
                     </div>
                 </div>
             </Modal>
 
             {showSuccess && (
-                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay-novoPaciente">
                     <div className="success-content">
                         <h3>Paciente cadastrado com sucesso!</h3>
                     </div>
@@ -287,7 +287,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose }) => {
             )}
 
             {showConfirmation && (
-                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
+                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay-novoPaciente">
                     <div className="confirmation-content">
                         <h3>Deseja sair sem salvar?</h3>
                         <div className="confirmation-buttons">

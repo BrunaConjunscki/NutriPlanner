@@ -1,20 +1,15 @@
-/* Modal */
+/* Estilos do modal */
 .modal-content-consulta {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    width: 400px; 
+    max-width: 100%;
 }
 
-/* Overlay do Modal */
 .modal-overlay {
-    background: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     position: fixed;
     top: 0;
     left: 0;
@@ -25,36 +20,103 @@
     align-items: center;
 }
 
-/* Título do Modal */
+/* Título do modal */
 .modal-title {
     font-size: 24px;
     font-weight: bold;
-    text-align: center;
     margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Fechar o modal com "X" */
+/* Fechar o modal */
 .modal-close-button {
     position: absolute;
     top: 10px;
-    right: 10px;
+    margin-left: -410px;
     background: transparent;
     border: none;
     font-size: 24px;
+    color: #7C838A;
     cursor: pointer;
-    color: #333;
 }
 
 .modal-close-button:hover {
-    color: #FC6000;
+    color: #617A55;
 }
 
-/* Corpo do modal (onde ficam os campos do formulário) */
+
+/* Icone de ajuda */
+.icon-consultas {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7C838A;
+}
+
+/* Tela sem consultas cadastradas */
+.no-consultas {
+    text-align: center;
+}
+
+.no-consultas p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.nova-consulta-button {
+    background-color: #A1DD70;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.nova-consulta-button:hover {
+    background-color: #617A55;
+    
+    
+}
+
+/* Histórico de Consultas */
+.historico-consultas {
+    margin-top: 20px;
+}
+
+.historico-consultas h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.historico-consultas ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.historico-consultas li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.historico-consultas li:last-child {
+    margin-bottom: 0;
+}
+
+/* Tela de cadastro de nova consulta */
 .modal-body-consulta {
-    width: 100%;
+    margin-top: 20px;
 }
 
-/* Grid para os campos do formulário */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -62,127 +124,99 @@
     margin-bottom: 20px;
 }
 
-/* Estilo dos grupos de campos no formulário */
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
 }
 
-/* Estilo das entradas de texto */
-.input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-consultas {
+    padding: 10px;
     font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.input-consultas:focus {
+    border-color: #FC6000;
+    outline: none;
 }
 
 .input-error {
     border-color: red;
 }
 
-/* Estilo dos rótulos (labels) */
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* Mensagens de erro */
 .error-message-modal {
-    color: red;
     font-size: 12px;
+    color: red;
     margin-top: 5px;
 }
 
-/* Estilo para o grupo de botões de rádio */
 .radio-group {
     display: flex;
-    align-items: center;  /* Alinha as opções no centro */
-    gap: 5px;  /* Menor espaçamento entre as opções */
+    gap: 15px;
 }
 
-/* Ajuste para os inputs de rádio */
-.radio-group input[type="radio"] {
-    margin-right: 2px;  /* Diminui ainda mais o espaço entre o botão de rádio e o texto */
+.radio-group input {
+    margin-top: 5px;
 }
 
-/* Estilo para o label das opções de anamnese */
 .radio-group label {
     font-size: 14px;
-    margin-left: 5px;  /* Adiciona um pequeno espaço entre o botão de rádio e o texto */
+    font-weight: normal;
 }
 
-/* Ajustes para o botão de rádio "Sim" */
-.form-group input[value="sim"] {
-    margin-right: 5px;  /* Ajusta o espaço entre o botão de rádio e o texto */
+.required {
+    color: red;
 }
 
-/* Ajustes para o botão de rádio "Não" */
-.form-group input[value="nao"] {
-    margin-left: 5px;  /* Ajusta o espaço entre o botão de rádio e o texto */
-}
-
-/* Alinhar as opções de Anamnese horizontalmente (lado a lado) */
-.form-group div {
-    display: flex;
-    align-items: center;
-}
-
-/* Rodapé do modal */
-.modal-footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* Botão de submit (Cadastrar) */
+/* Botões */
 .modal-button {
-    padding: 10px 20px;
-    background-color: #FC6000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    background-color: #A1DD70;
+    color: white;
+    padding: 12px 20px;
     font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    transition: background-color 0.3s;
+    margin-top: 30px;
 }
 
 .modal-button:hover {
-    background-color: #e55d00;
+    background-color: #617A55;
 }
 
-/* Modal de Sucesso */
+/* Mensagem de sucesso */
 .success-modal {
-    position: relative;
-    width: 300px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Modal de ajuda */
+.help-modal {
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 20px;
+    border-radius: 10px;
+}
+
+.help-modal-content {
     background-color: #fff;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.success-content {
-    font-size: 18px;
-    font-weight: bold;
-    color: #28a745;
-    text-align: center;
-}
-
-/* Ajuda */
-.icon {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    cursor: pointer;
-}
-
-.success-modal h3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #28a745;
-    text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    max-width: 100%;
 }
