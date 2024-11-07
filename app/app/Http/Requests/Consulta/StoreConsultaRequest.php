@@ -12,6 +12,7 @@ class StoreConsultaRequest extends FormRequest
      */
     public function authorize(): bool
     {
+//        dd($this->paciente);
         return $this->paciente->nutricionista_id === $this->user()->nutricionista->id;
 
     }

@@ -11,6 +11,8 @@ class ConsultaController extends Controller
     public function store(StoreConsultaRequest $request, Paciente $paciente) {
         $consulta = Consulta::create([
             'paciente_id' => $paciente->id,
+            'data' => $request->data ?? null,
+            'horario' => $request->horario ?? null,
             'nutricionista_id' => $request->user()->nutricionista->id,
         ]);
 
@@ -27,9 +29,7 @@ class ConsultaController extends Controller
     }
 
     public function show(Paciente $paciente, Consulta $consulta) {
-        return response()->json([
-            $consulta,
-        ]);
+        return response()->json($consulta);
     }
 
     public function index(Paciente $paciente) {

@@ -11,6 +11,8 @@ class Consulta extends Model
     public $timestamps = false;
     protected $fillable = [
         'nutricionista_id',
+        'data',
+        'horario',
         'paciente_id',
     ];
     protected $with = ['paciente'];

@@ -47,12 +47,11 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
         if (validateForm()) {
             try {
                 await axios.post(`http://localhost:8000/api/pacientes/${pacienteId}/consultas`, {
-                    paciente: pacienteId,
-                    data_consulta,
-                    hora_consulta,
+                    data: data_consulta,
+                    horario: hora_consulta,
                     anamnese,
                     tipo_anamnese: tipoAnamnese,
-                });
+                }, { headers: { Accept: 'application/json' } });
                 setShowSuccess(true);
                 setShowCadastro(false); // Fechar o cadastro após sucesso
             } catch (error) {
