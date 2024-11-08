@@ -138,7 +138,7 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
     return (
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-editarPaciente" overlayClassName="modal-overlay">
-                <button className="modal-close-button" onClick={handleClose}>×</button>
+                <button className="modal-close-button-editar" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Editar Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
