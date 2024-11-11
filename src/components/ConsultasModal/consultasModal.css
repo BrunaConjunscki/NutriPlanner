@@ -32,7 +32,7 @@
 .modal-close-button {
     position: absolute;
     top: 10px;
-    margin-left: -410px;
+    margin-left: 350px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -75,7 +75,8 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-left: 115px;
 }
 
 .nova-consulta-button:hover {
@@ -86,13 +87,15 @@
 
 /* Histórico de Consultas */
 .historico-consultas {
-    margin-top: 20px;
+    margin-top: -10px;
 }
 
 .historico-consultas h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #333;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .historico-consultas ul {

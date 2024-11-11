@@ -6,6 +6,7 @@ import './consultasModal.css';
 import Help from "../Help";
 
 const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
+    const [anamneseConteudo, setAnamneseConteudo] = useState('')
     const [consultas, setConsultas] = useState([]);
     const [data_consulta, setDataConsulta] = useState('');
     const [hora_consulta, setHoraConsulta] = useState('');
@@ -46,10 +47,11 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
     const handleSubmit = async () => {
         if (validateForm()) {
             try {
+
                 await axios.post(`http://localhost:8000/api/pacientes/${pacienteId}/consultas`, {
                     data: data_consulta,
                     horario: hora_consulta,
-                    anamnese,
+                    anamnese: anamneseConteudo,
                     tipo_anamnese: tipoAnamnese,
                 }, { headers: { Accept: 'application/json' } });
                 setShowSuccess(true);

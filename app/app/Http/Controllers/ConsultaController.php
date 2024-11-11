@@ -16,7 +16,7 @@ class ConsultaController extends Controller
             'nutricionista_id' => $request->user()->nutricionista->id,
         ]);
 
-        if($request->has('anamnese')) {
+        if($request-anamnese !== '') {
             $paciente->anamnese = $request->anamnese;
             $paciente->save();
         }
