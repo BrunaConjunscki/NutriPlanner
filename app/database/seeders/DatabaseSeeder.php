@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             FoodSeeder::class,
             FoodNutrientSeeder::class,
-            ItensAtropometricosSeeder::class,
+            ItensAntropometricosSeeder::class,
         ]);
     }
 }
