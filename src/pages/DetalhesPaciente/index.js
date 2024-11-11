@@ -9,6 +9,9 @@ import EditarPacienteModal from "../../components/EditarPacienteModal";
 import ConsultasModal from "../../components/ConsultasModal";
 import AnamneseModal from "../../components/AnamneseModal";
 import "./detalhespacientes.css";
+import RefeicaoModal from "../../components/RefeicaoModal";
+import VisualizarAntropometria from "../../components/VisualizarAntropometria";
+import visualizarAntropometria from "../../components/VisualizarAntropometria";
 
 const Loading = () => (
     <div className="loading-overlay">
@@ -26,8 +29,10 @@ const DetalhesPaciente = (props) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [refeicaoModalOpen, setRefeicaoModalOpen] = useState(false);
     const [consultaModalOpen, setConsultaModalOpen] = useState(false);
     const [anamneseModalOpen, setAnamneseModalOpen] = useState(false);
+    const [showAntropometria, setShowAntropometria] = useState(false);
 
     useEffect(() => {
         const getPaciente = async () => {
@@ -62,11 +67,21 @@ const DetalhesPaciente = (props) => {
         setAnamneseModalOpen(true);
     };
 
+    const handleOpenRefeicaoModal = () => {
+        setRefeicaoModalOpen(true);
+    }
+
     const handleCloseModals = () => {
         setConsultaModalOpen(false);
         setAnamneseModalOpen(false);
+        setRefeicaoModalOpen(false);
         setIsModalOpen(false);
+        setShowAntropometria(false)
     };
+
+    const handleShowAntropometria = () => {
+        setShowAntropometria(true)
+    }
 
     return (
         <div className="main-container">
@@ -115,8 +130,8 @@ const DetalhesPaciente = (props) => {
                                 <div className="consulta-opcoes">
                                     <div className="consulta-item" onClick={handleOpenConsultaModal}><FaNotesMedical size={32} /> Consultas</div>
                                     <div className="consulta-item" onClick={handleOpenAnamneseModal}><FaClipboardList size={32} /> Anamnese</div>
-                                    <div className="consulta-item" onClick={() => navigate('/antropometria')}><FaRuler size={32} /> Antropometria</div>
-                                    <div className="consulta-item" onClick={() => navigate('/refeicoes')}><FaUtensils size={32} /> Refeições</div>
+                                    <div className="consulta-item" onClick={handleShowAntropometria}><FaRuler size={32} /> Antropometria</div>
+                                    <div className="consulta-item" onClick={handleOpenRefeicaoModal}><FaUtensils size={32} /> Refeições</div>
                                 </div>
                             </div>
                         </div>
@@ -135,11 +150,18 @@ const DetalhesPaciente = (props) => {
                         }}
                     />
                 )}
+                {refeicaoModalOpen && (
+                    <RefeicaoModal
+                        isOpen={refeicaoModalOpen}
+                        onRequestClose={handleCloseModals}
+                        paciente={paciente}
+                    />
+                )}
                 {consultaModalOpen && 
                     <ConsultasModal 
                         isOpen={consultaModalOpen}
-                        onRequestClose={handleCloseModals} 
-                        pacienteId={id} 
+                        onRequestClose={handleCloseModals}
+                        pacienteId={id}
                     />}
                 {anamneseModalOpen && 
                     <AnamneseModal 
@@ -148,6 +170,13 @@ const DetalhesPaciente = (props) => {
                         anamneseDescricao={paciente.anamnese}
                         pacienteId={paciente.id}
                     />}
+                {showAntropometria && (
+                    <VisualizarAntropometria
+                        isOpen={showAntropometria}
+                        onRequestClose={handleCloseModals}
+                        pacienteId={id}
+                    />
+                )}
             </div>
         </div>
     );

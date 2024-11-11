@@ -27,6 +27,7 @@ const RoutesApp = (props) => {
                     <Route path="*" element={<Navigate to={'/home'} />} />
                     <Route path="/paciente/:id" element={<DetalhesPaciente />} />
 
+
                 </Routes>
             </Fragment>
         </BrowserRouter>
