@@ -48,7 +48,44 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
         setAnamneseToView(anamneseDescricao);
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        
+        // Cria uma data 'ontem' com a hora zerada (meia-noite)
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);  // Subtrai 1 dia para obter a data de ontem
+        const yesterdayFormatted = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+        
+        // Cria a data da consulta e zera a hora
+        const selectedDate = new Date(data_consulta);
+        const selectedFormattedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+        
+        // Validar se os campos estão preenchidos
+        if (!data_consulta) newErrors.data_consulta = 'Data da consulta é obrigatória';
+        if (!hora_consulta) newErrors.hora_consulta = 'Hora da consulta é obrigatória';
+        
+        // Validar se a data da consulta não é anterior a ontem
+        if (selectedFormattedDate < yesterdayFormatted) {
+            newErrors.data_consulta = 'Data da consulta não pode ser anterior à data de ontem';
+        }
+    
+        // Validar horário da consulta
+        const selectedTime = hora_consulta.split(':');
+        const selectedHour = parseInt(selectedTime[0], 10);
+        if (selectedHour < 8 || selectedHour >= 18) newErrors.hora_consulta = 'O horário da consulta deve estar entre 08:00 e 18:00';
+    
+        // Validar anamnese
+        if (anamnese === 'sim' && !tipoAnamnese) newErrors.tipoAnamnese = 'Tipo de anamnese é obrigatório';
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
+    };
+    
+
     const handleSaveConsulta = () => {
+        if (!validateForm()) return; // Não salva se houver erros de validação
+
         const data = {
             paciente_id: pacienteId,
             data: data_consulta,
@@ -93,17 +130,6 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                 <li key={index}>
                                     <span>Consulta {index + 1}</span>: {consulta.data}
                                     <button className="nova-antropometria-button">Nova Antropometria</button>
-                                    
-                                    {/* {consulta.paciente.anamnese && consulta.paciente.anamnese.trim() !== '' ? (
-                                        <button 
-                                            className="visualizar-anamnese-button"
-                                            onClick={() => handleViewAnamnese(consulta.paciente.anamnese)} // Passando a descrição da anamnese
-                                        >
-                                            Visualizar Anamnese
-                                        </button>
-                                    ) : (
-                                        <p>Sem anamnese associada</p>  // Caso não tenha anamnese
-                                    )} */}
                                 </li>
                             ))}
                         </ul>
@@ -174,40 +200,39 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                             <option value="branco">Em branco</option>
                                             <option value="adulto">Adulto</option>
                                             <option value="idoso">Idoso</option>
-                                            <option value="gestante">Gestante</option>
-                                            <option value="criança">Criança</option>
                                         </select>
                                         {errors.tipoAnamnese && <span className="error-message-modal">{errors.tipoAnamnese}</span>}
                                     </div>
-                                    <div className="form-group-descricao-anamnese">
-    <label>Descrição da Anamnese</label>
-    <ReactQuill
-        value={descricaoAnamnese}
-        onChange={setDescricaoAnamnese}
-        className="editor-consultas"
-        placeholder="Escreva a descrição detalhada aqui..."
-    />
-</div>
 
+                                    <div className="form-group-descricao-anamnese">
+                                        <label>Descrição da Anamnese <span className="required">*</span></label>
+                                        <ReactQuill 
+                                            value={descricaoAnamnese} 
+                                            onChange={setDescricaoAnamnese} 
+                                            className="editor-consultas"
+                                            placeholder="Escreva a descrição detalhada aqui..."
+                                        />
+                                    </div>
                                 </>
                             )}
+                            {errors.geral && <div className="error-message-general">{errors.geral}</div>}
                         </div>
-                        
                         <button onClick={handleSaveConsulta} className="modal-button">Cadastrar</button>
                     </div>
                 )}
 
+            {/* Modal salvo com sucesso */}
             {showSuccess && (
-                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay-novoPaciente">
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay">
                     <div className="success-content">
-                        <h3>Paciente cadastrado com sucesso!</h3>
+                        <h3>Paciente atualizado com sucesso!</h3>
                     </div>
                 </Modal>
 
             )}
 
             {showConfirmation && (
-                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay-novoPaciente">
+                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
                     <div className="confirmation-content">
                         <h3>Deseja sair sem salvar?</h3>
                         <div className="confirmation-buttons">
@@ -217,29 +242,13 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                     </div>
                 </Modal>
             )}
-            
-            {isHelpOpen && (
-                <Help
-                    isOpen={isHelpOpen}
-                    onRequestClose={() => setIsHelpOpen(false)}
-                    location='consultas_modal'
-                />
-            )}
 
-                {/* Modal para visualizar a anamnese */}
-                {anamneseToView && (
-                    <Modal
-                        isOpen={!!anamneseToView}
-                        onRequestClose={() => setAnamneseToView(null)}
-                        className="modal-content-anamnese"
-                        overlayClassName="modal-overlay"
-                    >
-                        <button className="modal-close-button" onClick={() => setAnamneseToView(null)}>×</button>
-                        <h2>Visualizar Anamnese</h2>
-                        <div dangerouslySetInnerHTML={ {__html: anamneseToView} }></div>
-                    </Modal>
-                )}
             </Modal>
+
+            <Help 
+                isOpen={isHelpOpen} onRequestClose={() => setIsHelpOpen(false)}
+                location='consultas_modal' 
+            />
         </>
     );
 };

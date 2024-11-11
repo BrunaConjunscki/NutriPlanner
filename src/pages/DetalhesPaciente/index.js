@@ -143,8 +143,10 @@ const DetalhesPaciente = (props) => {
                     />}
                 {anamneseModalOpen && 
                     <AnamneseModal 
-                        onClose={handleCloseModals} 
-                        pacienteId={id}
+                        isOpen={anamneseModalOpen} 
+                        onRequestClose={handleCloseModals}
+                        anamneseDescricao={paciente.anamnese}
+                        pacienteId={paciente.id}
                     />}
             </div>
         </div>

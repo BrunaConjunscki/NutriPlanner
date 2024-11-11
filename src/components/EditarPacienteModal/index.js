@@ -138,7 +138,7 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
     return (
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-editarPaciente" overlayClassName="modal-overlay">
-                <button className="modal-close-button-editar" onClick={handleClose}>×</button>
+                <button className="modal-content-anamnese" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Editar Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
@@ -282,7 +282,7 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
             {showConfirmation && (
                 <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay">
                     <div className="confirmation-content">
-                        <h3>Deseja sair sem salvar?</h3>
+                        <h3>Realmente deseja sair ?</h3>
                         <div className="confirmation-buttons">
                             <button className="confirmar-button" onClick={handleConfirmClose}>Sim</button>
                             <button className="cancelar-button" onClick={handleCancelClose}>Não</button>

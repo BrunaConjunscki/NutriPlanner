@@ -1,50 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Modal from 'react-modal';
+import { FaQuestionCircle } from "react-icons/fa";
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
+import Help from "../Help";
 import './anamneseModal.css';
 
-const AnamneseModal = ({ isOpen, onClose, patientId }) => {
-  const [anamneseData, setAnamneseData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const AnamneseModal = ({ isOpen, onRequestClose, anamneseDescricao, pacienteId }) => {
 
-  useEffect(() => {
-    if (isOpen && patientId) {
-      fetchAnamneseData(patientId);
-    }
-  }, [isOpen, patientId]);
+    const [errors, setErrors] = useState({});
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const fetchAnamneseData = async (id) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(`/api/anamnese/${id}`);
-      setAnamneseData(response.data);
-    } catch (err) {
-      setError('Erro ao buscar a anamnese do paciente.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    
 
-  if (!isOpen) return null;
+    const handleClose = () => {
+        setShowConfirmation(true);
+    };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="close-button" onClick={onClose}>X</button>
-        <h2>Anamnese do Paciente</h2>
-        {loading && <p>Carregando anamnese...</p>}
-        {error && <p className="error-message">{error}</p>}
-        {anamneseData && !loading && !error ? (
-          <div>
-            {/* Exemplo de campo da anamnese */}
-            <p>Descrição: {anamneseData.description}</p>
-            {/* Adicione outros campos conforme necessário */}
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
+    const handleConfirmClose = () => {
+        setShowConfirmation(false);
+        onRequestClose();
+    };
+
+    const handleCancelClose = () => {
+        setShowConfirmation(false);
+    };
+
+
+    return (
+        <Modal 
+            isOpen={isOpen} 
+            onRequestClose={handleClose} 
+            className="modal-content-anamnese" 
+            overlayClassName="modal-overlay"
+        >
+            <button className="close-button-anamnese" onClick={handleClose}>×</button>
+            <FaQuestionCircle className='icon-anamnese' onClick={() => setIsHelpOpen(true)} />
+            <h2 className="modal-title-anamnese">Visualização da Anamnese</h2>
+            <div className="anamnese-descricao">
+                {anamneseDescricao ? (
+                    <p dangerouslySetInnerHTML={ {__html: anamneseDescricao} }></p>
+                ) : (
+                    <p>Não há anamnese disponível para esta consulta.</p>
+                )}
+            </div>
+            {showSuccess && (
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay-novoPaciente">
+                    <div className="success-content">
+                        <h3>Paciente cadastrado com sucesso!</h3>
+                    </div>
+                </Modal>
+
+            )}
+
+            {showConfirmation && (
+                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay-novoPaciente">
+                    <div className="confirmation-content">
+                        <h3>Deseja sair sem salvar?</h3>
+                        <div className="confirmation-buttons">
+                            <button className="confirmar-button" onClick={handleConfirmClose}>Sim</button>
+                            <button className="cancelar-button" onClick={handleCancelClose}>Não</button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+            
+                <Help
+                    isOpen={isHelpOpen}
+                    onRequestClose={() => setIsHelpOpen(false)}
+                    location='anamnese_modal'
+                />
+            
+
+                {/* Modal para visualizar a anamnese */}
+                {/* {anamneseToView && (
+                    <Modal
+                        isOpen={!!anamneseToView}
+                        onRequestClose={() => setAnamneseToView(null)}
+                        className="modal-content-anamnese"
+                        overlayClassName="modal-overlay"
+                    >
+                        <button className="modal-close-button" onClick={() => setAnamneseToView(null)}>×</button>
+                        <h2>Visualizar Anamnese</h2>
+                        <div dangerouslySetInnerHTML={ {__html: anamneseToView} }></div>
+                    </Modal>
+                )} */}
+        </Modal>
+    );
 };
 
 export default AnamneseModal;

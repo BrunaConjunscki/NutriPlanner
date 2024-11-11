@@ -251,9 +251,9 @@
     text-align: center;
 }
 
-.modal-content-anamnese button {
+/* .modal-content-anamnese button {
     position: absolute;
-    top: 15px;
+    top: 5px;
     right: 15px;
     background: transparent;
     border: none;
@@ -264,7 +264,7 @@
 
 .modal-content-anamnese button:hover {
     color: #FC6000;
-}
+} */
 
 .form-group-descricao-anamnese {
     display: flex;
@@ -281,4 +281,14 @@
     padding: 10px;
     box-sizing: border-box;
     font-size: 16px;
+}
+
+.input-error {
+    border: 2px solid red;
+}
+
+.error-message-modal {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }

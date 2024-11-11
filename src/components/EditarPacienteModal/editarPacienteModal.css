@@ -276,3 +276,46 @@ label {
 .success-button:hover {
     background-color: #A1DD70;
 }
+
+/* Icone de ajuda */
+.icon-editar {
+    position: absolute;
+    /* top: 10px; */
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7C838A;
+}
+
+.icon-editar:hover {
+    color: #FC6000;
+}
+
+.modal-content-anamnese button {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #7C838A;
+    cursor: pointer;
+}
+
+.modal-content-anamnese button:hover {
+    color: #FC6000;
+}
+
+/* Icone de ajuda */
+.icon-consultas {
+    position: absolute;
+    /* top: 10px; */
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7C838A;
+}
+
+.icon-consultas:hover {
+    color: #FC6000;
+}
