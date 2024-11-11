@@ -107,7 +107,7 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                 </li>
                             ))}
                         </ul>
-                        <button onClick={() => setShowCadastro(true)} className="nova-consulta-button">Nova consulta</button>
+                        <button onClick={() => setShowCadastro(true)} className="nova-consulta-button-historico">Nova consulta</button>
                     </div>
                 )}
 
@@ -179,15 +179,16 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                         </select>
                                         {errors.tipoAnamnese && <span className="error-message-modal">{errors.tipoAnamnese}</span>}
                                     </div>
-                                    <div className="form-group">
-                            <label>Descrição da Anamnese</label>
-                            <ReactQuill
-                                value={descricaoAnamnese}
-                                onChange={setDescricaoAnamnese}
-                                className="editor-consultas"
-                                placeholder="Escreva a descrição detalhada aqui..."
-                            />
-                        </div>
+                                    <div className="form-group-descricao-anamnese">
+    <label>Descrição da Anamnese</label>
+    <ReactQuill
+        value={descricaoAnamnese}
+        onChange={setDescricaoAnamnese}
+        className="editor-consultas"
+        placeholder="Escreva a descrição detalhada aqui..."
+    />
+</div>
+
                                 </>
                             )}
                         </div>
@@ -196,7 +197,34 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                     </div>
                 )}
 
-                {showSuccess && <div className="success-modal">Consulta cadastrada com sucesso!</div>}
+            {showSuccess && (
+                <Modal isOpen={showSuccess} className="success-modal" overlayClassName="modal-overlay-novoPaciente">
+                    <div className="success-content">
+                        <h3>Paciente cadastrado com sucesso!</h3>
+                    </div>
+                </Modal>
+
+            )}
+
+            {showConfirmation && (
+                <Modal isOpen={showConfirmation} className="confirmation-modal" overlayClassName="modal-overlay-novoPaciente">
+                    <div className="confirmation-content">
+                        <h3>Deseja sair sem salvar?</h3>
+                        <div className="confirmation-buttons">
+                            <button className="confirmar-button" onClick={handleConfirmClose}>Sim</button>
+                            <button className="cancelar-button" onClick={handleCancelClose}>Não</button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+            
+            {isHelpOpen && (
+                <Help
+                    isOpen={isHelpOpen}
+                    onRequestClose={() => setIsHelpOpen(false)}
+                    location='consultas_modal'
+                />
+            )}
 
                 {/* Modal para visualizar a anamnese */}
                 {anamneseToView && (
