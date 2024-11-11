@@ -6,6 +6,8 @@ import 'react-quill/dist/quill.snow.css'; // Estilos para o editor de texto
 import ReactQuill from 'react-quill';
 import './consultasModal.css';
 import Help from "../Help";
+import NovaAntropometriaModal from "../NovaAntropometriaModal";
+import VisualizarAntropometria from "../VisualizarAntropometria";
 
 const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
     const [consultas, setConsultas] = useState([]);
@@ -20,6 +22,9 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showCadastro, setShowCadastro] = useState(false);
     const [anamneseToView, setAnamneseToView] = useState(null);
+    const [newAntropometria, setNewAntropometria] = useState(null);
+    const [consultaToNewAntropometria, setConsultaToNewAntropometria] = useState(null);
+    const [showAntropometria, setShowAntropometria] = useState(false);
 
     useEffect(() => {
         if (pacienteId) {
@@ -71,6 +76,16 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
             });
     };
 
+    function handleNewAntropometria (consultaId)  {
+        setConsultaToNewAntropometria(consultaId);
+        setNewAntropometria(true);
+    }
+
+    function handleShowAntropometria (consultaId) {
+        setConsultaToNewAntropometria(consultaId);
+        setShowAntropometria(true);
+    }
+
     return (
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-consulta" overlayClassName="modal-overlay">
@@ -92,8 +107,8 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                             {consultas.map((consulta, index) => (
                                 <li key={index}>
                                     <span>Consulta {index + 1}</span>: {consulta.data}
-                                    <button className="nova-antropometria-button">Nova Antropometria</button>
-                                    
+                                    <button onClick={() => handleNewAntropometria(consulta.id)} className="nova-antropometria-button">Nova Antropometria</button>
+                                    <button onClick={() => handleShowAntropometria(consulta.id)} className="nova-antropometria-button">Visualizar Antropometria</button>
                                     {/* {consulta.paciente.anamnese && consulta.paciente.anamnese.trim() !== '' ? (
                                         <button 
                                             className="visualizar-anamnese-button"
@@ -238,6 +253,24 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                         <h2>Visualizar Anamnese</h2>
                         <div dangerouslySetInnerHTML={ {__html: anamneseToView} }></div>
                     </Modal>
+                )}
+
+                {newAntropometria && (
+                    <NovaAntropometriaModal
+                        isOpen={newAntropometria}
+                        onRequestClose={() => setNewAntropometria(false)}
+                        pacienteId={pacienteId}
+                        consultaId={consultaToNewAntropometria}
+                    />
+                )}
+
+                {showAntropometria && (
+                    <VisualizarAntropometria
+                        isOpen={showAntropometria}
+                        onRequestClose={() => setShowAntropometria(false)}
+                        pacienteId={pacienteId}
+                        consultaId={consultaToNewAntropometria}
+                    />
                 )}
             </Modal>
         </>

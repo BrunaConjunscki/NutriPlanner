@@ -38,8 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/{consulta}', 'show');
             Route::get('/', 'index');
 
-            Route::prefix('/{consulta}/antropometrias')->controller(AntropometriaController::class)->group(function () {
-                Route::get('/', 'index');
+            Route::prefix('/{consulta?}/antropometrias')->controller(AntropometriaController::class)->group(function () {
+                Route::get('/', 'show');
                 Route::post('/', 'store');
             });
         });
