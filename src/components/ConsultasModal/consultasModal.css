@@ -4,10 +4,11 @@
     border-radius: 10px;
     padding: 20px;
     position: relative;
-    width: 400px; 
-    max-width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
+/* Overlay do modal */
 .modal-overlay {
     background-color: rgba(0, 0, 0, 0.6);
     position: fixed;
@@ -26,13 +27,14 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    color: #333;
 }
 
-/* Fechar o modal */
-.modal-close-button {
+/* Botão de fechar */
+.modal-close-button, .modal-close-button-nenhuma-consulta {
     position: absolute;
-    top: 10px;
-    margin-left: 350px;
+    top: 15px;
+    right: 15px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -40,24 +42,28 @@
     cursor: pointer;
 }
 
-.modal-close-button:hover {
-    color: #617A55;
+.modal-close-button:hover, .modal-close-button-nenhuma-consulta:hover {
+    color: #FC6000;
 }
-
 
 /* Icone de ajuda */
 .icon-consultas {
     position: absolute;
-    top: 10px;
+    /* top: 10px; */
     left: 10px;
     font-size: 20px;
     cursor: pointer;
     color: #7C838A;
 }
 
+.icon-consultas:hover {
+    color: #FC6000;
+}
+
 /* Tela sem consultas cadastradas */
 .no-consultas {
     text-align: center;
+    padding: 20px;
 }
 
 .no-consultas p {
@@ -76,48 +82,76 @@
     font-size: 16px;
     transition: background-color 0.3s;
     margin-top: 15px;
-    margin-left: 115px;
+    /* margin-left: 135px; */
+    
 }
 
 .nova-consulta-button:hover {
     background-color: #617A55;
-    
-    
 }
 
 /* Histórico de Consultas */
 .historico-consultas {
-    margin-top: -10px;
+    margin-top: 20px;
 }
 
 .historico-consultas h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    color: #333;
+    color: #FC6000;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: -10px;
 }
 
 .historico-consultas ul {
-    list-style-type: none;
-    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
 }
+
 
 .historico-consultas li {
     background-color: #f9f9f9;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
     font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
 }
 
-.historico-consultas li:last-child {
-    margin-bottom: 0;
+.historico-consultas li:hover {
+    background-color: #f0f0f0;
+}
+
+.historico-consultas li span {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo para os botões de ações dentro das consultas */
+.nova-antropometria-button, .visualizar-anamnese-button {
+    background-color: #617A55;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.nova-antropometria-button:hover, .visualizar-anamnese-button:hover {
+    background-color: #A1DD70;
 }
 
 /* Tela de cadastro de nova consulta */
 .modal-body-consulta {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .form-grid {
@@ -125,31 +159,32 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 700px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .form-group label {
     font-size: 16px;
-    font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .input-consultas {
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #f9f9f9;
     transition: border-color 0.3s;
 }
 
 .input-consultas:focus {
     border-color: #FC6000;
-    outline: none;
 }
 
 .input-error {
@@ -164,62 +199,57 @@
 
 .radio-group {
     display: flex;
-    gap: 15px;
+    gap: 10px;
+    align-items: center;
 }
 
 .radio-group input {
-    margin-top: 5px;
+    margin-right: 5px;
 }
 
-.radio-group label {
-    font-size: 14px;
-    font-weight: normal;
+.editor-consultas {
+    width: 100%;
+    height: 200px;
+    margin-top: 10px;
 }
 
-.required {
-    color: red;
-}
-
-/* Botões */
-.modal-button {
-    background-color: #A1DD70;
-    color: white;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 50%;
-    transition: background-color 0.3s;
-    margin-top: 30px;
-}
-
-.modal-button:hover {
-    background-color: #617A55;
-}
-
-/* Mensagem de sucesso */
 .success-modal {
-    background-color: #28a745;
-    color: white;
+    background-color: #A1DD70;
+    color: #fff;
     padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
     text-align: center;
     margin-top: 20px;
+    border-radius: 5px;
 }
 
-/* Modal de ajuda */
-.help-modal {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.help-modal-content {
+/* Estilo para o modal de visualização da anamnese */
+.modal-content-anamnese {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
-    width: 400px;
-    max-width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.modal-content-anamnese h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-content-anamnese button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #7C838A;
+    cursor: pointer;
+}
+
+.modal-content-anamnese button:hover {
+    color: #FC6000;
 }
