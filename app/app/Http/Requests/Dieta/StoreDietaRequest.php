@@ -22,14 +22,15 @@ class StoreDietaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required'],
-            'refeicoes.*.nome' => ['required', 'string'],
-            'refeicoes.*.horario' => ['required', 'date_format:H:i'],
-            'refeicoes.*.opcoes.*.nome' => ['required', 'string'],
-            'refeicoes.*.opcoes.*.alimentos.*.alimento_id' => ['required', 'integer', 'exists:alimentos,id'],
-            'refeicoes.*.opcoes.*.alimentos.*.medida_id' => ['required', 'integer', 'exists:medidas,id'],
-            'refeicoes.*.opcoes.*.alimentos.*.quantidade' => ['required', 'decimal:0,3'],
-            'refeicoes.*.opcoes.*.alimentos.*.observacao' => ['string'],
+//            'nome' => ['required'],
+//            'refeicoes.*.nome' => ['required', 'string'],
+//            'refeicoes.*.horario' => ['required', 'date_format:H:i'],
+//            'refeicoes.*.opcoes.*.nome' => ['required', 'string'],
+//            'refeicoes.*.opcoes.*.alimentos.*.alimento_id' => ['required', 'integer', 'exists:alimentos,id'],
+//            'refeicoes.*.opcoes.*.alimentos.*.medida_id' => ['required', 'integer', 'exists:medidas,id'],
+//            'refeicoes.*.opcoes.*.alimentos.*.quantidade' => ['required', 'decimal:0,3'],
+//            'refeicoes.*.opcoes.*.alimentos.*.observacao' => ['string'],
+            'dieta' => 'required',
         ];
     }
 

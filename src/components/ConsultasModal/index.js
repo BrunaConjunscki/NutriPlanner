@@ -180,14 +180,14 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                         {errors.tipoAnamnese && <span className="error-message-modal">{errors.tipoAnamnese}</span>}
                                     </div>
                                     <div className="form-group-descricao-anamnese">
-    <label>Descrição da Anamnese</label>
-    <ReactQuill
-        value={descricaoAnamnese}
-        onChange={setDescricaoAnamnese}
-        className="editor-consultas"
-        placeholder="Escreva a descrição detalhada aqui..."
-    />
-</div>
+                                        <label>Descrição da Anamnese</label>
+                                        <ReactQuill
+                                            value={descricaoAnamnese}
+                                            onChange={setDescricaoAnamnese}
+                                            className="editor-consultas"
+                                            placeholder="Escreva a descrição detalhada aqui..."
+                                        />
+                                    </div>
 
                                 </>
                             )}

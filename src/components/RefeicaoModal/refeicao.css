@@ -1,0 +1,83 @@
+.modal-button-refeicao  {
+    outline: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #A1DD70;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.buttons-salvar {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-voltar {
+    margin-right: 5px;
+    /*margin-top: 1px;*/
+}
+
+.modal-button-refeicao :hover {
+    background-color: #218838;
+}
+
+.modal-close-button-refeicao {
+    position: absolute;
+    top: 10px;
+    left: 765px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+.modal-close-button-refeicao :hover {
+    color: #617A55;
+}
+
+.modal-button-voltar  {
+    outline: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #A1DD70;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.modal-button-voltar :hover {
+    background-color: #4E6033;
+}
+
+.form-group-refeicao {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / -1;
+}
+
+.editor-refeicao {
+    min-height: 200px;
+    width: 100%;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 250px;
+}
+

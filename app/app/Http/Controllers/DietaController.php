@@ -27,20 +27,22 @@ class DietaController extends Controller
     }
 
     public function store(StoreDietaRequest $request, Paciente $paciente) {
-        $dieta_atual = Dieta::where('paciente_id', $paciente->id)
-            ->where('atual', true)
-            ->first();
-
-        if($dieta_atual) {
-            $dieta_atual->atual = false;
-            $dieta_atual->save();
-        }
-
-        $dieta = $this->atualizaDados($request->validated(), $paciente, new Dieta());
+//        $dieta_atual = Dieta::where('paciente_id', $paciente->id)
+//            ->where('atual', true)
+//            ->first();
+//
+//        if($dieta_atual) {
+//            $dieta_atual->atual = false;
+//            $dieta_atual->save();
+//        }
+//
+//        $dieta = $this->atualizaDados($request->validated(), $paciente, new Dieta());
+        $paciente->dieta = $request['dieta'];
+        $paciente->save();
 
         return response()->json([
             'success' => true,
-            'dieta' => $dieta
+            'paciente' => $paciente
         ]);
     }
 
