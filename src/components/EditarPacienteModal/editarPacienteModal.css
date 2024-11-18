@@ -17,7 +17,7 @@
     padding: 20px;
     border-radius: 12px;
     max-width: 800px;
-    width: 100%;
+    /* width: 100%; */
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     position: relative;
 }
@@ -291,9 +291,9 @@ label {
     color: #FC6000;
 }
 
-.modal-content-anamnese button {
+.modal-close-button button {
     position: absolute;
-    top: 7px;
+    top: 15px;
     right: 15px;
     background: transparent;
     border: none;
@@ -302,7 +302,7 @@ label {
     cursor: pointer;
 }
 
-.modal-content-anamnese button:hover {
+.modal-close-button button:hover {
     color: #FC6000;
 }
 

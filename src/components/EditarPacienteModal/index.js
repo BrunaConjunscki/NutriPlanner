@@ -138,7 +138,7 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
     return (
         <>
             <Modal isOpen={isOpen} onRequestClose={handleClose} className="modal-content-editarPaciente" overlayClassName="modal-overlay">
-                <button className="modal-content-anamnese" onClick={handleClose}>×</button>
+                <button className="modal-close-button" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Editar Paciente</h2>
                 <div className="modal-body">
                     <div className="form-grid">
@@ -229,8 +229,8 @@ const EditarPacienteModal = ({ isOpen, onRequestClose, paciente, onSave }) => {
                                 className={`input ${errors.sexo ? 'input-error' : ''}`}
                             >
                                 <option value="">Selecione o gênero</option>
-                                <option value="feminino">Feminino</option>
-                                <option value="masculino">Masculino</option>
+                                <option value="f">Feminino</option>
+                                <option value="m">Masculino</option>
                             </select>
                             {errors.sexo && <span className="error-message-modal">{errors.sexo}</span>}
                         </div>
