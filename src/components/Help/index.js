@@ -4,8 +4,23 @@ import InputMask from 'react-input-mask';
 import '../NovoPacienteModal/modal.css';
 import './help.css';
 import axios from 'axios';
+import {queryHelpers} from "@testing-library/react";
 
 const Help = ({ isOpen, onRequestClose, location }) => {
+    const isMounted = useRef(false)
+    if (!isMounted.current){
+        if(location.substring(0, 10) === '/paciente/' )
+            location = '/paciente'
+    }
+
+    useEffect(() => {
+        isMounted.current = true
+    },[])
+
+    useEffect(() => {
+        console.log(location)
+    })
+
     const mapLocation = {
         '/home': {
             'nome': 'Página Inicial',
@@ -14,6 +29,13 @@ const Help = ({ isOpen, onRequestClose, location }) => {
                     <p>
                         Na página inicial, são mostrados os seus cinco últimos pacientes e templates de anamneses cadastrados, assim opções de casdastro rápido.
                     </p>
+                </div>
+        },
+        '/paciente': {
+            'nome': 'Detalhes do paciente',
+            'ajuda':
+                <div className="modal-content-help">
+                    <p>Nessa tela, você verá os detalhes do paciente, como dados pessoais, anamnese e a última antropometria realizada, além de ter a opção de realizar uma nova consulta.</p>
                 </div>
         },
         '/pacientes': {
@@ -49,6 +71,34 @@ const Help = ({ isOpen, onRequestClose, location }) => {
                         <li>Objetivos: principais objetivos do paciente com o acompanhamento nutricional</li>
                     </ul>
                 </div>
+        },
+        '/anamneses': {
+            'nome': 'Anamneses',
+            'ajuda':
+                <div className="modal-content-help">
+                    <p>Nessa tela, você verá todos os seus modelos de anamnese. Ao clicar em novo modelo, você poderá editar o modelo da anamnese.</p>
+                </div>
+        },
+        'anamnese_modal': {
+            'nome': 'Anamnese',
+            'ajuda':
+                <div className="modal-content-help">
+                    <p>Nessa tela, você poderá visualizar a anamnese do paciente.</p>
+                </div>
+        },
+        'consultas_modal': {
+            'nome': 'Consultas',
+            'ajuda':
+                <div className="modal-content-help">
+                    <p>Nessa tela, você verá todas as consultas do paciente selecionado, além de poder visualizar a antropometria realizada na consulta ou cadastrar uma nova. </p>
+                </div>
+        },
+        '/refeicoes': {
+            'nome': 'Refeições',
+            'ajuda':
+                <div className="modal-content-help">
+                    <p>Nessa tela você verá seus modelos de refeições.</p>
+                </div>
         }
     }
 
@@ -61,7 +111,6 @@ const Help = ({ isOpen, onRequestClose, location }) => {
                 {mapLocation[location]?.ajuda}
             </div>
         </Modal>
-
         </>
     );
 

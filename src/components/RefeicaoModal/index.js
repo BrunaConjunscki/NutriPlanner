@@ -87,7 +87,7 @@ const NovoPacienteModal = ({ isOpen, onRequestClose, paciente }) => {
 
                             <div className="buttons-salvar">
                                 <button className={'modal-button-refeicao'} onClick={handleSubmit}>
-                                    Salvar Anamnese
+                                    Salvar Refeição
                                 </button>
                             </div>
                         </div>

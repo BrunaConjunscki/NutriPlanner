@@ -105,6 +105,7 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                 setTimeout(() => {
                     setShowSuccess(false);
                     onRequestClose(); // Fecha o modal após o sucesso
+                    window.location.reload();
                 }, 2000);
             })
             .catch(error => {
@@ -156,7 +157,6 @@ const ConsultasModal = ({ isOpen, onRequestClose, pacienteId }) => {
                                     ) : (
                                         <p>Sem anamnese associada</p>  // Caso não tenha anamnese
                                     )} */}
-                                    <button className="nova-antropometria-button">Nova Antropometria</button>
                                 </li>
                             ))}
                         </ul>

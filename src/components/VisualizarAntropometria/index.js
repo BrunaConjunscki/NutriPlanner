@@ -52,7 +52,7 @@ const VisualizarAntropometriaModal = ({ isOpen, onRequestClose, pacienteId, cons
                    overlayClassName="modal-overlay-novoPaciente">
                 <button className="modal-close-button-refeicao" onClick={handleClose}>×</button>
                 <h2 className="modal-title">Antropometria</h2>
-                <div className="modal-body" dangerouslySetInnerHTML={{__html: antropometria.antropometria}}>
+                <div className="modal-body" dangerouslySetInnerHTML={{__html: antropometria.antropometria ?? 'Paciente ainda não possui antropometria. Abra uma nova consulta para realizar a antropometria.'}}>
 
 
 
